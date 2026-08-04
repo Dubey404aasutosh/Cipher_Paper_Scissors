@@ -731,32 +731,30 @@ body.debug-mode .loader .img {
     z-index: 0;
 }
 
-.spotlight-base {
+/* CRITICAL: Both images use the EXACT same class for sizing.
+   This guarantees pixel-perfect alignment — same object-fit,
+   same object-position, same dimensions, zero offset. */
+.spotlight-img {
     position: absolute;
-    inset: 0;
-    background-image: url('assets/H.png');
-    background-position: center top;
-    background-size: cover;
-    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.spotlight-base {
     z-index: 10;
-    opacity: 1;
 }
 
 .spotlight-reveal {
-    position: absolute;
-    inset: 0;
-    background-image: url('assets/H.H.png');
-    background-position: center top;
-    background-size: cover;
-    background-repeat: no-repeat;
     z-index: 30;
     pointer-events: none;
+    opacity: 0;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
 }
-
-.spotlight-canvas-wrapper {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    display: none;
-}
-
