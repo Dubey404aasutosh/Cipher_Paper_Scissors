@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
 
     <!-- Libraries (GSAP + ScrollTrigger) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -60,10 +60,10 @@
         <div class="img layer-10"><img src="assets/33.jpg" alt="Product Layer 10" /></div>
     </div>
 
-    <!-- Section 2: Hero Section (Goodside Flat Monochrome Editorial Redesign) -->
+    <!-- Section 2: Hero Section (Spotlight Image + Title Below + Team GreekGods) -->
     <section class="hero">
         <div class="hero-page-frame">
-            <!-- Top Bar -->
+            <!-- Top Bar (Team GreekGods Name + Controls) -->
             <div class="hero-top-bar">
                 <div class="team-badge">
                     ● TEAM GREEKGODS PRESENTATION
@@ -77,52 +77,14 @@
                 </div>
             </div>
 
-            <!-- Hero Main Content Inner Wrapper -->
-            <div class="hero-inner">
-                <!-- Hero Wordmark -->
-                <div class="wordmark-container">
-                    <h1 class="hero-title">Cipher, Paper, Scissors</h1>
-                </div>
-
-                <!-- Divider 1 -->
-                <div class="hero-divider"></div>
-
-                <!-- Intro Row -->
-                <div class="hero-intro-row">
-                    <div class="hero-intro-left">
-                        SHIFT · SWAP · FLIP
-                    </div>
-                    <div class="hero-intro-right">
-                        <p class="hero-tagline">
-                            A 3-stage hybrid cryptography architecture combining polyalphabetic shift, 
-                            matrix digraph substitution, and lossless letter-domain bitwise XOR.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Divider 2 -->
-                <div class="hero-divider"></div>
-
-                <!-- Stage Strip -->
-                <div class="hero-stage-strip">
-                    <div class="stage-strip-segment">
-                        <div class="stage-segment-title">SHIFT</div>
-                        <div class="stage-segment-sub">Stage 1: Caesar Shift</div>
-                    </div>
-                    <div class="stage-strip-segment">
-                        <div class="stage-segment-title">SWAP</div>
-                        <div class="stage-segment-sub">Stage 2: Playfair Matrix</div>
-                    </div>
-                    <div class="stage-strip-segment">
-                        <div class="stage-segment-title">FLIP</div>
-                        <div class="stage-segment-sub">Stage 3: Letter XOR</div>
-                    </div>
-                </div>
+            <!-- Spotlight Hero Image Animation Box -->
+            <div class="hero-spotlight-box" id="hero-spotlight-box">
+                <!-- spotlight.js dynamically renders base H.png & reveal H.H.png -->
             </div>
 
-            <!-- Bottom Right Status Chip -->
-            <div class="hero-status-chip">
-                RSS_WiFi / Internet access
+            <!-- Hero Wordmark Title BELOW the Spotlight Hero Animation -->
+            <div class="wordmark-container">
+                <h1 class="hero-title">Cipher, Paper, Scissors</h1>
             </div>
         </div>
     </section>
@@ -273,7 +235,7 @@
     <!-- JS Scripts -->
     <script src="cipher.js?v=2"></script>
     <script src="script.js?v=2"></script>
-    <script src="spotlight.js?v=7"></script>
+    <script src="spotlight.js?v=11"></script>
     <script src="app.js?v=2"></script>
 </body>
 </html>
