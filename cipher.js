@@ -175,7 +175,7 @@ const CPSCipher = (function () {
         if (!decrypt) {
             const raw = pIdx ^ kIdx;
             if (raw >= 26) return raw - 6;      // Maps [26..31] -> [20..25]
-            if (raw >= 20) return raw + 6;      // Maps [20..25] -> [26..31] -> % 26 = [0..5]
+            if (raw >= 20) return (raw + 6) % 26; // Maps [20..25] -> [26..31] -> % 26 = [0..5]
             return raw;                         // Maps [0..19]  -> [0..19]
         } else {
             let raw;

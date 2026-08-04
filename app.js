@@ -5,33 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 1. PRELOADER SCRAMBLE ANIMATION
-    const scrambleEl = document.getElementById("scramble-text");
-    const targetText = "CIPHER PAPER SCISSORS";
-    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
-    let iteration = 0;
-
-    const interval = setInterval(() => {
-        scrambleEl.innerText = targetText
-            .split("")
-            .map((letter, index) => {
-                if (index < iteration) {
-                    return targetText[index];
-                }
-                return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join("");
-
-        if (iteration >= targetText.length) {
-            clearInterval(interval);
-            setTimeout(() => {
-                const preloader = document.getElementById("preloader");
-                preloader.style.opacity = "0";
-                preloader.style.visibility = "hidden";
-            }, 500);
-        }
-        iteration += 1 / 2;
-    }, 40);
+    // Preloader is handled by script.js (Multi-Layer Polygon Clip-Path Shutter Reveal)
 
     // 2. SAMPLE DATA & PLAYFAIR MATRIX SETUP
     const sampleWord = "SERENOVA";
@@ -147,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (targetStr[idx] && cell.innerText !== targetStr[idx]) {
                         cell.innerText = targetStr[idx];
                         // Pulse effect on change
-                        gsap.fromTo(cell, { scale: 1.2, borderColor: "#00FF66" }, { scale: 1, borderColor: "rgba(255, 255, 255, 0.1)", duration: 0.3 });
+                        gsap.fromTo(cell, { scale: 1.2, borderColor: "var(--accent-primary)" }, { scale: 1, borderColor: "rgba(147, 117, 75, 0.2)", duration: 0.3 });
                     }
                 });
 

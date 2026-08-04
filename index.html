@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
     <link rel="stylesheet" href="style.css">
@@ -19,17 +19,60 @@
 </head>
 <body>
 
-    <!-- Cyber Background Grid -->
-    <div class="cyber-grid"></div>
-
-    <!-- Section 1: Preloader -->
-    <div id="preloader">
-        <div class="preloader-text" id="scramble-text">0XF8A29B...</div>
-        <div class="preloader-sub">INITIALIZING CPS-26 DECRYPTOR</div>
+    <!-- Interactive Debug Control HUD -->
+    <div id="debug-hud" class="debug-hud">
+        <button id="debug-toggle-btn" class="debug-toggle-btn">🐞 DEBUG MODE: OFF</button>
+        <div id="debug-stats" class="debug-stats" style="display: none;">
+            <div><span class="hud-label">ANIMATION:</span> Balanced 10-Layer Shutter Preloader</div>
+            <div><span class="hud-label">SPEED:</span> Smooth Cinematic (~2.8s total)</div>
+            <div><span class="hud-label">OVERLAY CLIP:</span> <span id="hud-overlay-clip">polygon(0 100%, 100% 100%, 100% 0, 0 0)</span></div>
+            <div><span class="hud-label">STATUS:</span> <span id="hud-status">Initializing...</span></div>
+            <div class="hud-hint">Press 'D' key or click button to toggle</div>
+        </div>
     </div>
+
+    <!-- Automatic Intro Preloader Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="col">
+            <h2>
+                <div>CIPHER, PAPER</div>
+                <div>SCISSORS</div>
+            </h2>
+        </div>
+        <div class="col text-right">
+            <h2>
+                <div>INITIALIZING...</div>
+                <div>CPS-26</div>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Multi-Layered Shutter Image Stack Loader (10 Layers) -->
+    <div class="loader" id="loader">
+        <div class="img layer-1"><img src="assets/11.jpg" alt="Product Layer 1" /></div>
+        <div class="img layer-2"><img src="assets/22.jpg" alt="Product Layer 2" /></div>
+        <div class="img layer-3"><img src="assets/33.jpg" alt="Product Layer 3" /></div>
+        <div class="img layer-4"><img src="assets/44.jpg" alt="Product Layer 4" /></div>
+        <div class="img layer-5"><img src="assets/55.jpg" alt="Product Layer 5" /></div>
+        <div class="img layer-6"><img src="assets/66.jpg" alt="Product Layer 6" /></div>
+        <div class="img layer-7"><img src="assets/77.jpg" alt="Product Layer 7" /></div>
+        <div class="img layer-8"><img src="assets/11.jpg" alt="Product Layer 8" /></div>
+        <div class="img layer-9"><img src="assets/22.jpg" alt="Product Layer 9" /></div>
+        <div class="img layer-10"><img src="assets/33.jpg" alt="Product Layer 10" /></div>
+    </div>
+
+    <!-- Subtle Background Grid -->
+    <div class="cyber-grid"></div>
 
     <!-- Section 2: Hero Section -->
     <section class="hero container">
+        <div class="hero-top-bar">
+            <button class="replay-btn" id="replay-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                Replay Preloader
+            </button>
+        </div>
+
         <div class="team-badge">
             <span class="dot"></span>
             <span>TEAM GREEKGODS PRESENTATION</span>
@@ -164,7 +207,7 @@
 
                 <div class="output-row">
                     <span class="output-label">DECRYPTED RECOVERY:</span>
-                    <span class="output-val" id="sb-decrypted" style="color: var(--accent-cyan);">---</span>
+                    <span class="output-val" id="sb-decrypted" style="color: var(--accent-secondary);">---</span>
                 </div>
             </div>
 
@@ -200,7 +243,8 @@
     </footer>
 
     <!-- JS Scripts -->
-    <script src="cipher.js"></script>
-    <script src="app.js"></script>
+    <script src="cipher.js?v=2"></script>
+    <script src="script.js?v=2"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>
