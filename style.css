@@ -98,13 +98,25 @@ body {
 
 /* HERO SECTION */
 .hero {
+    position: relative;
+    width: 100vw;
     min-height: 100vh;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: 80px 20px 40px;
+    overflow: hidden;
+}
+
+.team-badge, .hero-title, .hero-tagline, .hero-stats, .hero-top-bar {
+    position: relative;
+    z-index: 50;
 }
 
 .team-badge {
@@ -685,3 +697,66 @@ body.debug-mode .overlay {
 body.debug-mode .loader .img {
   outline: 2px dashed #ff0055 !important;
 }
+
+/* ============================================================
+   CURSOR SPOTLIGHT REVEAL HERO STYLES
+   ============================================================ */
+
+/* HERO SECTION */
+.hero {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 40px;
+    overflow: hidden;
+}
+
+.spotlight-hero-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.spotlight-base {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/H.png');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 10;
+    opacity: 1;
+}
+
+.spotlight-reveal {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/H.H.png');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.spotlight-canvas-wrapper {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+}
+
