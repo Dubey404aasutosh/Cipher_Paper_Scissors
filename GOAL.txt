@@ -1,0 +1,27 @@
+Objective: Design a hybrid encryption algorithm by combining the concepts of Caesar Cipher and Playfair Cipher along with any additional encryption logic of your choice.
+
+Instructions
+1. Work in groups of 2–4 students.
+2. Design a unique cipher which should mandatorily use the concepts of both Caesar Cipher and Playfair Cipher.
+3. Give your cipher a unique name.
+4. Write the encryption algorithm step by step.
+5. Write the decryption algorithm that correctly recovers the original plaintext.
+6. Demonstrate your algorithm using one sample plaintext and a key and show:
+
+* Plaintext
+* Ciphertext
+* Decrypted Plaintext
+
+7. Briefly explain why your cipher is stronger than using Caesar Cipher alone.
+
+8. Implement your algorithm in C programming (in OnlineGDB).
+9. Submit a single PDF (in Google Classroom) containing:
+
+* Group Members
+* Cipher Name
+* Encryption Algorithm
+* Decryption Algorithm
+* Example with Encryption & Decryption
+* Brief Security Explanation
+
+Note: Creativity is encouraged, but your encryption and decryption processes must be logically correct and reversible.
