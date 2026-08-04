@@ -33,27 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         iteration += 1 / 2;
     }, 40);
 
-    // 2. LENIS SMOOTH SCROLL INITIALIZATION
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothTouch: true
-    });
-
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Synchronize Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0, 0);
-
-    // 3. SAMPLE DATA & PLAYFAIR MATRIX SETUP
+    // 2. SAMPLE DATA & PLAYFAIR MATRIX SETUP
     const sampleWord = "SERENOVA";
     const playfairKey = "GREEKGODS";
     const caesarShift = 3;
@@ -140,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger: "#journey",
             start: "top top",
             end: "bottom bottom",
-            scrub: 1,
+            scrub: true,
             onUpdate: (self) => {
                 const progress = self.progress;
                 let currentStage = 0;

@@ -252,7 +252,7 @@ body {
 /* PLAINTEXT JOURNEY (PINNED SCROLL SECTION) */
 .journey-section {
     position: relative;
-    height: 350vh; /* Multi-screen scroll height for smooth scrubbing */
+    height: 220vh; /* Responsive scroll height for quick native scrubbing */
 }
 
 .journey-sticky {
