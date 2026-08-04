@@ -8,10 +8,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=10">
 
     <!-- Libraries (GSAP + ScrollTrigger) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -21,7 +21,6 @@
 
     <!-- Interactive Debug Control HUD -->
     <div id="debug-hud" class="debug-hud">
-        <button id="debug-toggle-btn" class="debug-toggle-btn">🐞 DEBUG MODE: OFF</button>
         <div id="debug-stats" class="debug-stats" style="display: none;">
             <div><span class="hud-label">ANIMATION:</span> Balanced 10-Layer Shutter Preloader</div>
             <div><span class="hud-label">SPEED:</span> Smooth Cinematic (~2.8s total)</div>
@@ -61,40 +60,69 @@
         <div class="img layer-10"><img src="assets/33.jpg" alt="Product Layer 10" /></div>
     </div>
 
-    <!-- Subtle Background Grid -->
-    <div class="cyber-grid"></div>
-
-    <!-- Section 2: Hero Section -->
+    <!-- Section 2: Hero Section (Goodside Flat Monochrome Editorial Redesign) -->
     <section class="hero">
-        <div class="hero-top-bar">
-            <button class="replay-btn" id="replay-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                Replay Preloader
-            </button>
-        </div>
-
-        <div class="team-badge">
-            <span class="dot"></span>
-            <span>TEAM GREEKGODS PRESENTATION</span>
-        </div>
-        <h1 class="hero-title">Cipher, Paper, Scissors</h1>
-        <p class="hero-tagline">
-            A 3-stage hybrid cryptography architecture combining polyalphabetic shift, 
-            matrix digraph substitution, and lossless letter-domain bitwise XOR.
-        </p>
-
-        <div class="hero-stats">
-            <div class="stat-card">
-                <div class="stat-number">SHIFT</div>
-                <div class="stat-label">Stage 1: Caesar Shift</div>
+        <div class="hero-page-frame">
+            <!-- Top Bar -->
+            <div class="hero-top-bar">
+                <div class="team-badge">
+                    ● TEAM GREEKGODS PRESENTATION
+                </div>
+                <div class="hero-top-actions">
+                    <button class="replay-btn" id="replay-btn" title="Replay Preloader">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                        REPLAY
+                    </button>
+                    <button id="debug-toggle-btn" class="debug-toggle-btn">🍄 DEBUG MODE: OFF</button>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">SWAP</div>
-                <div class="stat-label">Stage 2: Playfair Matrix</div>
+
+            <!-- Hero Main Content Inner Wrapper -->
+            <div class="hero-inner">
+                <!-- Hero Wordmark -->
+                <div class="wordmark-container">
+                    <h1 class="hero-title">Cipher, Paper, Scissors</h1>
+                </div>
+
+                <!-- Divider 1 -->
+                <div class="hero-divider"></div>
+
+                <!-- Intro Row -->
+                <div class="hero-intro-row">
+                    <div class="hero-intro-left">
+                        SHIFT · SWAP · FLIP
+                    </div>
+                    <div class="hero-intro-right">
+                        <p class="hero-tagline">
+                            A 3-stage hybrid cryptography architecture combining polyalphabetic shift, 
+                            matrix digraph substitution, and lossless letter-domain bitwise XOR.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Divider 2 -->
+                <div class="hero-divider"></div>
+
+                <!-- Stage Strip -->
+                <div class="hero-stage-strip">
+                    <div class="stage-strip-segment">
+                        <div class="stage-segment-title">SHIFT</div>
+                        <div class="stage-segment-sub">Stage 1: Caesar Shift</div>
+                    </div>
+                    <div class="stage-strip-segment">
+                        <div class="stage-segment-title">SWAP</div>
+                        <div class="stage-segment-sub">Stage 2: Playfair Matrix</div>
+                    </div>
+                    <div class="stage-strip-segment">
+                        <div class="stage-segment-title">FLIP</div>
+                        <div class="stage-segment-sub">Stage 3: Letter XOR</div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">FLIP</div>
-                <div class="stat-label">Stage 3: Letter XOR</div>
+
+            <!-- Bottom Right Status Chip -->
+            <div class="hero-status-chip">
+                RSS_WiFi / Internet access
             </div>
         </div>
     </section>
@@ -245,7 +273,7 @@
     <!-- JS Scripts -->
     <script src="cipher.js?v=2"></script>
     <script src="script.js?v=2"></script>
-    <script src="spotlight.js?v=6"></script>
+    <script src="spotlight.js?v=7"></script>
     <script src="app.js?v=2"></script>
 </body>
 </html>

@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Reset initial states for all 10 layers & overlay
     gsap.killTweensOf([".overlay", "h2", "h2 div", ".loader", ".loader .img"]);
 
+    gsap.set([".overlay", ".loader"], { display: "block" });
     gsap.set(".overlay", {
       clipPath: "polygon(0 100%, 100% 100%, 100% 0, 0 0)",
       pointerEvents: "none"
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isAnimating = false;
         if (hudStatus) hudStatus.innerText = "Shutter Complete / Page Unlocked";
         if (hudOverlayClip) hudOverlayClip.innerText = "polygon(0 0, 100% 0, 100% 0, 0 0)";
+        gsap.set([".overlay", ".loader"], { display: "none" });
       }
     });
 
