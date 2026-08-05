@@ -47,6 +47,7 @@ html {
     font-family: var(--font-heading);
     overflow-x: hidden;
     scroll-behavior: smooth;
+    overscroll-behavior-y: none;
 }
 
 body {
@@ -70,6 +71,20 @@ body {
     z-index: -2;
     pointer-events: none;
     background-color: #FAF8EE;
+    will-change: background-image;
+}
+
+.pipo-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.25'/></svg>");
+    background-size: 120px 120px;
+    background-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .cyber-grid {
@@ -469,12 +484,28 @@ body {
 /* ============================================================
    SECTION 4: THE PLAINTEXT JOURNEY (DETAILED CHARACTER MATH FLOW)
    ============================================================ */
+/* ============================================================
+   SECTION 4: THE PLAINTEXT JOURNEY (TOP 1% FRONTEND ANIMATED & HONEY SCROLL)
+   ============================================================ */
 .journey-section {
     position: relative;
-    height: 140vh;
-    background: #FDF6E3;
-    border-top: 1px solid #111111;
-    border-bottom: 1px solid #111111;
+    height: 115vh; /* Tight height to eliminate empty gap below */
+    background: #FAF8EE;
+    border-top: 1px solid rgba(17, 17, 17, 0.15);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+    overflow: hidden;
+}
+
+/* BACKGROUND SHADER CANVAS */
+.journey-shader-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.85;
 }
 
 .journey-sticky {
@@ -486,153 +517,183 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: 20px;
+    padding: 40px 24px;
+    z-index: 2;
+}
+
+.word-display-box {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1.5px solid rgba(17, 17, 17, 0.16);
+    padding: 24px 36px 28px;
+    border-radius: 32px;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 24px 70px rgba(0, 0, 0, 0.08);
+    width: 95vw;
+    max-width: 1080px;
+    margin-top: 20px; /* Pull down cleanly into vertical center */
+    position: relative;
+    z-index: 2;
 }
 
 .stage-indicator {
     display: flex;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .stage-pill {
     font-family: var(--font-ops);
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     font-weight: 400;
-    padding: 8px 18px;
+    padding: 8px 20px;
     border-radius: 30px;
-    background: #FFFFFF;
-    color: #666666;
-    border: 1px solid #111111;
-    transition: all 0.3s ease;
+    background: rgba(250, 248, 238, 0.9);
+    backdrop-filter: blur(10px);
+    color: #444444;
+    border: 1px solid rgba(17, 17, 17, 0.14);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
 }
 
 .stage-pill.active {
     background: #0F0F0F;
-    color: #FFFFFF;
+    color: #D7A669;
     border-color: #0F0F0F;
-    font-weight: 400;
-}
-
-.word-display-box {
-    background: #FFFFFF;
-    border: 1px solid #111111;
-    padding: 36px 48px;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    max-width: 900px;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 
 .current-stage-title {
     font-family: var(--font-germania);
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     font-weight: 400;
-    color: #666666;
+    color: #0F0F0F;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+    letter-spacing: 2.5px;
+    margin-bottom: 16px;
 }
 
 .letters-container {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin: 16px 0 24px;
+    gap: 16px;
+    margin: 20px 0 32px;
     flex-wrap: wrap;
 }
 
 .letter-cell {
-    width: 60px;
-    height: 68px;
-    background: #FDF6E3;
-    border: 1px solid #111111;
-    border-radius: 12px;
+    width: 78px;
+    height: 88px;
+    background: #FAF8EE;
+    border: 1.5px solid rgba(17, 17, 17, 0.2);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-ops);
-    font-size: 1.9rem;
+    font-size: 2.65rem;
     font-weight: 400;
     color: #0F0F0F;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    transition: all 0.3s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, border-color 0.3s ease;
 }
 
-/* DETAILED CHARACTER MATH TRANSFORMATION FLOW CARD */
+.letter-cell:hover {
+    transform: translateY(-6px) scale(1.08);
+    border-color: #B5651D;
+}
+
+/* ENLARGED CHARACTER MATH TRANSFORMATION FLOW CARD */
 .stage-flow-card {
-    background: #FDF6E3;
-    border: 1px solid #111111;
-    border-radius: 16px;
-    padding: 22px 26px;
+    background: #FAF8EE;
+    border: 1.5px solid rgba(17, 17, 17, 0.16);
+    border-radius: 24px;
+    padding: 30px 36px;
     text-align: left;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .flow-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 22px;
 }
 
 .flow-formula-badge {
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #B5651D;
+    letter-spacing: 0.5px;
+    background: rgba(181, 101, 29, 0.12);
+    padding: 6px 16px;
+    border-radius: 8px;
 }
 
 .flow-step-tag {
     font-family: var(--font-germania);
-    font-size: 0.95rem;
+    font-size: 1.25rem;
     font-weight: 400;
     color: #2A7C6F;
+    letter-spacing: 1px;
 }
 
 .flow-math-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
 }
 
-.math-cell-card {
+.math-cell-card,
+.flow-math-card {
     background: #FFFFFF;
-    border: 1px solid #111111;
-    border-radius: 8px;
-    padding: 8px;
+    border: 1px solid rgba(17, 17, 17, 0.16);
+    border-radius: 14px;
+    padding: 14px 10px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.flow-math-card:hover {
+    transform: translateY(-4px);
+    border-color: #2A7C6F;
 }
 
 .math-from {
-    font-size: 0.8rem;
-    color: #666666;
-    font-weight: 600;
+    font-size: 1.05rem;
+    color: #444444;
+    font-weight: 700;
+    font-family: var(--font-mono);
 }
 
 .math-op {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.92rem;
+    font-weight: 700;
     color: #B5651D;
-    margin: 4px 0;
+    margin: 6px 0;
+    font-family: var(--font-mono);
 }
 
 .math-to {
-    font-size: 1.1rem;
+    font-size: 1.55rem;
     font-weight: 700;
     color: #2A7C6F;
+    font-family: var(--font-ops);
 }
 
 .stage-description {
     font-family: var(--font-mono);
-    font-size: 0.88rem;
-    color: #333333;
-    line-height: 1.5;
+    font-size: 1.05rem;
+    color: #2B2B2B;
+    line-height: 1.7;
     font-weight: 500;
 }
 

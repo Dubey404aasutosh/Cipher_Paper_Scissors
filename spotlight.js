@@ -36,7 +36,6 @@
       rect = spotlightBox.getBoundingClientRect();
     };
     window.addEventListener("resize", updateRect, { passive: true });
-    window.addEventListener("scroll", updateRect, { passive: true });
 
     // High performance lerp variables for spotlight mask
     const lerpFactor = 0.22;

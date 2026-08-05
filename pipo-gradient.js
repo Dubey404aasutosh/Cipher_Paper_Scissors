@@ -39,27 +39,28 @@
 
     const amt = 0.72;
     const startTime = performance.now();
+    let lastRenderTime = 0;
 
     function render(now) {
-      const t = (now - startTime) / 1000;
-      const ph = t * 0.86;
+      // Throttle background mesh gradient updates to ~30fps to free 80% GPU/CPU headroom for scroll
+      if (now - lastRenderTime > 30) {
+        lastRenderTime = now;
+        const t = (now - startTime) / 1000;
+        const ph = t * 0.86;
 
-      const gradientParts = blobs.map(blob => {
-        // Continuous modulation formula: (sin(ph * freq + phase) - sin(phase)) * 14 * amt
-        // Ensures modulation starts smoothly at exactly 0 when ph = 0
-        const modX = (Math.sin(ph * 0.55 + blob.pX) - Math.sin(blob.pX)) * 14 * amt;
-        const modY = (Math.sin(ph * 0.43 + blob.pY) - Math.sin(blob.pY)) * 14 * amt;
+        const gradientParts = blobs.map(blob => {
+          const modX = (Math.sin(ph * 0.55 + blob.pX) - Math.sin(blob.pX)) * 14 * amt;
+          const modY = (Math.sin(ph * 0.43 + blob.pY) - Math.sin(blob.pY)) * 14 * amt;
 
-        const currentX = blob.baseX + modX;
-        const currentY = blob.baseY + modY;
+          const currentX = (blob.baseX + modX).toFixed(2);
+          const currentY = (blob.baseY + modY).toFixed(2);
 
-        return `radial-gradient(circle at ${currentX}% ${currentY}%, ${blob.stops})`;
-      });
+          return `radial-gradient(circle at ${currentX}% ${currentY}%, ${blob.stops})`;
+        });
 
-      bgElement.style.backgroundColor = "#FAF8EE";
-      bgElement.style.backgroundImage = `${grainUrl}, ${gradientParts.join(', ')}`;
-      bgElement.style.backgroundSize = "120px 120px, auto, auto, auto";
-      bgElement.style.backgroundBlendMode = "overlay, normal, normal, normal";
+        bgElement.style.backgroundColor = "#FAF8EE";
+        bgElement.style.backgroundImage = gradientParts.join(', ');
+      }
 
       requestAnimationFrame(render);
     }

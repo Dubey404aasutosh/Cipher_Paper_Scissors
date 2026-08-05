@@ -158,15 +158,16 @@
 
     <!-- Section 4: The Plaintext Journey (Detailed Cryptographic Step Flow) -->
     <section class="journey-section" id="journey">
+        <canvas id="journey-shader-canvas" class="journey-shader-bg"></canvas>
         <div class="journey-sticky">
-            <div class="stage-indicator">
-                <span class="stage-pill" id="pill-0" data-tooltip="STAGE 0 (PLAINTEXT): Raw input string sanitized (uppercase, J→I) and converted to 0-24 letter indices.">0. PLAINTEXT</span>
-                <span class="stage-pill" id="pill-1" data-tooltip="STAGE 1 (CAESAR SHIFT): Every letter index is rotated forward by Caesar key k₁ = 3 (mod 25). Pre-whitens letter frequencies.">1. CAESAR</span>
-                <span class="stage-pill" id="pill-2" data-tooltip="STAGE 2 (PLAYFAIR MATRIX): Text split into digraph pairs and substituted through a 5x5 key matrix [ZEUS].">2. PLAYFAIR</span>
-                <span class="stage-pill" id="pill-3" data-tooltip="STAGE 3 (LETTER XOR / FLIP): Modular addition applied between Playfair characters and Key 'K' (index 9) mod 25.">3. XOR</span>
-            </div>
-
             <div class="word-display-box">
+                <div class="stage-indicator">
+                    <span class="stage-pill" id="pill-0" data-tooltip="STAGE 0 (PLAINTEXT): Raw input string sanitized (uppercase, J→I) and converted to 0-24 letter indices.">0. PLAINTEXT</span>
+                    <span class="stage-pill" id="pill-1" data-tooltip="STAGE 1 (CAESAR SHIFT): Every letter index is rotated forward by Caesar key k₁ = 3 (mod 25). Pre-whitens letter frequencies.">1. CAESAR</span>
+                    <span class="stage-pill" id="pill-2" data-tooltip="STAGE 2 (PLAYFAIR MATRIX): Text split into digraph pairs and substituted through a 5x5 key matrix [ZEUS].">2. PLAYFAIR</span>
+                    <span class="stage-pill" id="pill-3" data-tooltip="STAGE 3 (LETTER XOR / FLIP): Modular addition applied between Playfair characters and Key 'K' (index 9) mod 25.">3. XOR</span>
+                </div>
+
                 <div class="current-stage-title" id="stage-title">STAGE 0: ORIGINAL PLAINTEXT</div>
 
                 <!-- Dynamic Output Letter Cells -->

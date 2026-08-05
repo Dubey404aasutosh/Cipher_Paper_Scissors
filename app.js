@@ -199,6 +199,52 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        // 2.2 BACKGROUND AMBIENT SHADER CANVAS ENGINE (SECTION 4)
+        const journeyCanvas = document.getElementById("journey-shader-canvas");
+        if (journeyCanvas) {
+            const ctx = journeyCanvas.getContext("2d");
+            let cWidth = (journeyCanvas.width = journeyCanvas.offsetWidth || window.innerWidth);
+            let cHeight = (journeyCanvas.height = journeyCanvas.offsetHeight || window.innerHeight);
+
+            window.addEventListener("resize", () => {
+                cWidth = journeyCanvas.width = journeyCanvas.offsetWidth || window.innerWidth;
+                cHeight = journeyCanvas.height = journeyCanvas.offsetHeight || window.innerHeight;
+            }, { passive: true });
+
+            let shaderTime = 0;
+            function drawShader() {
+                shaderTime += 0.015;
+                ctx.clearRect(0, 0, cWidth, cHeight);
+
+                const grad1X = cWidth * 0.3 + Math.sin(shaderTime * 0.7) * 120;
+                const grad1Y = cHeight * 0.4 + Math.cos(shaderTime * 0.5) * 80;
+                const r1 = Math.max(cWidth, cHeight) * 0.5;
+
+                const grad2X = cWidth * 0.7 + Math.cos(shaderTime * 0.6) * 140;
+                const grad2Y = cHeight * 0.6 + Math.sin(shaderTime * 0.8) * 100;
+                const r2 = Math.max(cWidth, cHeight) * 0.55;
+
+                const g1 = ctx.createRadialGradient(grad1X, grad1Y, 0, grad1X, grad1Y, r1);
+                g1.addColorStop(0, "rgba(230, 176, 147, 0.35)");
+                g1.addColorStop(0.5, "rgba(215, 166, 105, 0.15)");
+                g1.addColorStop(1, "rgba(250, 248, 238, 0)");
+
+                const g2 = ctx.createRadialGradient(grad2X, grad2Y, 0, grad2X, grad2Y, r2);
+                g2.addColorStop(0, "rgba(163, 206, 255, 0.3)");
+                g2.addColorStop(0.6, "rgba(74, 144, 226, 0.1)");
+                g2.addColorStop(1, "rgba(250, 248, 238, 0)");
+
+                ctx.fillStyle = g1;
+                ctx.fillRect(0, 0, cWidth, cHeight);
+
+                ctx.fillStyle = g2;
+                ctx.fillRect(0, 0, cWidth, cHeight);
+
+                requestAnimationFrame(drawShader);
+            }
+            requestAnimationFrame(drawShader);
+        }
+
         const journeyEl = document.getElementById("journey");
         if (journeyEl) {
             gsap.timeline({
@@ -206,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     trigger: "#journey",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: true,
+                    scrub: 0.8, // Honey smooth inertia scroll physics
                     onUpdate: (self) => {
                         const progress = self.progress;
                         let currentStage = 0;
@@ -230,7 +276,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             cells.forEach((cell, idx) => {
                                 if (targetStr && targetStr[idx] && cell.innerText !== targetStr[idx]) {
                                     cell.innerText = targetStr[idx];
-                                    gsap.fromTo(cell, { scale: 1.25, color: "#D7A669" }, { scale: 1, color: "#0F0F0F", duration: 0.25 });
+                                    gsap.fromTo(cell, 
+                                        { scale: 1.35, color: "#D7A669", rotation: -6 }, 
+                                        { scale: 1, color: "#0F0F0F", rotation: 0, duration: 0.35, ease: "back.out(1.7)" }
+                                    );
                                 }
                             });
                         }
@@ -788,14 +837,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. TOP FRONTEND CRAFTED CARDS ANIMATION (3D Micro-Tilt + Radial Mouse Spotlight)
     const moveCards = document.querySelectorAll(".move-card");
     moveCards.forEach(card => {
-        let rect = card.getBoundingClientRect();
+        let rect = null;
         const updateRect = () => {
             rect = card.getBoundingClientRect();
         };
         window.addEventListener("resize", updateRect, { passive: true });
-        window.addEventListener("scroll", updateRect, { passive: true });
+
+        card.addEventListener("mouseenter", () => {
+            updateRect();
+        }, { passive: true });
 
         card.addEventListener("mousemove", (e) => {
+            if (!rect) updateRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
