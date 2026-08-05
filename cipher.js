@@ -136,35 +136,85 @@ const CPSCipher = (function () {
         return out;
     }
 
+    /**
+     * Format Preservation Helpers (preserves casing, spaces, digits, and special symbols)
+     */
+    function extractFormatMask(text) {
+        if (!text) return { letters: "", mask: [] };
+        let letters = "";
+        let mask = [];
+        for (let i = 0; i < text.length; i++) {
+            const ch = text[i];
+            if (/[a-zA-Z]/.test(ch)) {
+                letters += ch.toUpperCase();
+                mask.push({ isLetter: true, isLower: ch >= 'a' && ch <= 'z' });
+            } else {
+                mask.push({ isLetter: false, char: ch });
+            }
+        }
+        return { letters, mask };
+    }
+
+    function applyFormatMask(letters, mask) {
+        let out = "";
+        let letterIdx = 0;
+        for (const item of mask) {
+            if (item.isLetter) {
+                if (letterIdx < letters.length) {
+                    const l = letters[letterIdx++];
+                    out += item.isLower ? l.toLowerCase() : l;
+                }
+            } else {
+                out += item.char;
+            }
+        }
+        // Append remaining letters if cipher expanded (e.g. odd length padding)
+        while (letterIdx < letters.length) {
+            out += letters[letterIdx++];
+        }
+        return out;
+    }
+
     // ═══════════════════════════════════════════════════════════════════
     //  Full Encryption and Decryption Pipelines
     // ═══════════════════════════════════════════════════════════════════
-    function encrypt(plaintext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K") {
-        const clean = cleanText(plaintext);
+    function encrypt(plaintext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K", preserveFormat = true) {
+        const fmt = extractFormatMask(plaintext);
+        const clean = fmt.letters;
         const s1    = caesarTransform(clean, caesarShift, false);
         const s2    = playfairTransform(s1, playfairKey, false);
         const s3    = xorTransform(s2.result, xorKey, false);
+
+        const finalCiphertext = preserveFormat ? applyFormatMask(s3, fmt.mask) : s3;
+
         return {
             plaintext:       clean,
+            rawInput:        plaintext,
             stage1_shift:    s1,
             stage2_swap:     s2.result,
             stage2_digraphs: s2.digraphs,
             playfair_matrix: s2.matrix,
             stage3_flip:     s3,
+            finalCiphertext: finalCiphertext,
             keys: { caesarShift, playfairKey, xorKey }
         };
     }
 
-    function decrypt(ciphertext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K") {
-        const clean = cleanText(ciphertext);
+    function decrypt(ciphertext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K", preserveFormat = true) {
+        const fmt = extractFormatMask(ciphertext);
+        const clean = fmt.letters;
         const u3    = xorTransform(clean, xorKey, true);
         const u2    = playfairTransform(u3, playfairKey, true);
         const u1    = caesarTransform(u2.result, caesarShift, true);
+
+        const finalPlaintext = preserveFormat ? applyFormatMask(u1, fmt.mask) : u1;
+
         return {
             ciphertext:          clean,
+            rawInput:            ciphertext,
             unflip_swap:         u3,
             unswap_shift:        u2.result,
-            recovered_plaintext: u1
+            recovered_plaintext: finalPlaintext
         };
     }
 
@@ -179,3 +229,8 @@ const CPSCipher = (function () {
         decrypt
     };
 })();
+
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = CPSCipher;
+}
+
