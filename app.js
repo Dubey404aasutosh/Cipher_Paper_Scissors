@@ -1,40 +1,20 @@
 /* 
- * CIPHER, PAPER, SCISSORS - Fast & Smooth Scroll Controller
- * Lenis Ultra-Fast Smooth Scroll + Responsive Hero Title Stretch
+ * CIPHER, PAPER, SCISSORS - Fast Native Scroll Controller
+ * Distinct Hero Section Parallax & Title Stretch + Fast Journey Progress
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. FAST & RESPONSIVE LENIS SMOOTH SCROLL (Zero Scroll-Lock Lag)
-    let lenis = null;
-    if (typeof Lenis !== "undefined") {
-        lenis = new Lenis({
-            duration: 0.8,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            wheelMultiplier: 1.2,
-            touchMultiplier: 1.5,
-        });
-
-        if (typeof ScrollTrigger !== "undefined") {
-            lenis.on("scroll", ScrollTrigger.update);
-        }
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-    }
-
     // Register GSAP Plugins
     if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         gsap.registerPlugin(ScrollTrigger);
 
-        // 2. DYNAMIC HERO TITLE VERTICAL STRETCH ON SCROLL (Fast & Smooth)
+        // 1. DISTINCT HERO SECTION SCROLL ANIMATION (Hero Image Parallax + Upward Title Stretch)
         const heroSection = document.querySelector(".hero-section") || document.getElementById("hero-section");
         const heroTitle = document.getElementById("sticky-hero-title") || document.querySelector(".hero-title");
+        const spotlightBox = document.getElementById("hero-spotlight-box") || document.querySelector(".hero-spotlight-box");
 
         if (heroSection && heroTitle) {
+            // Hero Title Upward Stretch Effect
             gsap.fromTo(
                 heroTitle,
                 {
@@ -43,21 +23,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     filter: "drop-shadow(0 4px 28px rgba(0,0,0,0.45))",
                 },
                 {
-                    scaleY: 2.8,
-                    filter: "drop-shadow(0 24px 50px rgba(0, 0, 0, 0.85))",
+                    scaleY: 2.2,
+                    filter: "drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8))",
                     ease: "none",
                     scrollTrigger: {
                         trigger: heroSection,
                         start: "top top",
                         end: "bottom top",
-                        scrub: 0.2, // Instant responsive feedback
+                        scrub: true,
                         invalidateOnRefresh: true,
                     },
                 }
             );
+
+            // Subtle Hero Image Parallax Scale
+            if (spotlightBox) {
+                gsap.fromTo(
+                    spotlightBox,
+                    { scale: 1 },
+                    {
+                        scale: 1.06,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: heroSection,
+                            start: "top top",
+                            end: "bottom top",
+                            scrub: true,
+                        },
+                    }
+                );
+            }
         }
 
-        // 3. PLAINTEXT JOURNEY SCROLL ANIMATION (SECTION 4)
+        // 2. PLAINTEXT JOURNEY SCROLL ANIMATION (SECTION 4 - Fast 120vh Track)
         const sampleWord = "SERENOVA";
         const playfairKey = "ZEUS";
         const caesarShift = 3;
@@ -138,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     trigger: "#journey",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.3,
+                    scrub: true,
                     onUpdate: (self) => {
                         const progress = self.progress;
                         let currentStage = 0;
@@ -163,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             cells.forEach((cell, idx) => {
                                 if (targetStr && targetStr[idx] && cell.innerText !== targetStr[idx]) {
                                     cell.innerText = targetStr[idx];
-                                    gsap.fromTo(cell, { scale: 1.25, color: "#D7A669" }, { scale: 1, color: "#0F0F0F", duration: 0.3 });
+                                    gsap.fromTo(cell, { scale: 1.25, color: "#D7A669" }, { scale: 1, color: "#0F0F0F", duration: 0.25 });
                                 }
                             });
                         }
@@ -173,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 4. LIVE INTERACTIVE SANDBOX MATRIX (SECTION 5)
+    // 3. LIVE INTERACTIVE SANDBOX MATRIX (SECTION 5)
     const inputText = document.getElementById("input-text");
     const shiftKey = document.getElementById("shift-key");
     const matrixKey = document.getElementById("matrix-key");
