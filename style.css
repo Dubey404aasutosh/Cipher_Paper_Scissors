@@ -8,11 +8,16 @@
     --bg-warm: #FDF6E3;
     --bg-card: #FFFFFF;
     --bg-card-border: #111111;
-    --accent-primary: #D7A669;     /* Golden Amber Accent */
-    --accent-secondary: #2A7C6F;   /* Elegant teal */
-    --accent-tertiary: #8B5E3C;    /* Warm brown */
-    --text-primary: #0F0F0F;       /* Deep obsidian black */
-    --text-muted: #666666;         /* Neutral grey-brown */
+    --accent-primary: #D7A669;
+    /* Golden Amber Accent */
+    --accent-secondary: #2A7C6F;
+    /* Elegant teal */
+    --accent-tertiary: #8B5E3C;
+    /* Warm brown */
+    --text-primary: #0F0F0F;
+    /* Deep obsidian black */
+    --text-muted: #666666;
+    /* Neutral grey-brown */
     --shadow-soft: rgba(0, 0, 0, 0.06);
     --shadow-medium: rgba(0, 0, 0, 0.12);
     --font-ops: "Black Ops One", cursive, system-ui;
@@ -24,15 +29,15 @@
 }
 
 .black-ops-one-regular {
-  font-family: "Black Ops One", system-ui;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Black Ops One", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .germania-one-regular {
-  font-family: "Germania One", system-ui;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Germania One", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }
 
 * {
@@ -122,7 +127,8 @@ body {
     height: calc(100vh - 40px);
     min-height: calc(100vh - 40px);
     border: 1px solid rgba(17, 17, 17, 0.15);
-    border-radius: 28px !important; /* Beautiful Rounded Corners */
+    border-radius: 28px !important;
+    /* Beautiful Rounded Corners */
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -442,9 +448,17 @@ body {
     transform: scale(1.12) rotate(-4deg);
 }
 
-.move-card.shift .move-icon { color: #B5651D; }
-.move-card.swap .move-icon { color: #2A7C6F; }
-.move-card.flip .move-icon { color: #8B5E3C; }
+.move-card.shift .move-icon {
+    color: #B5651D;
+}
+
+.move-card.swap .move-icon {
+    color: #2A7C6F;
+}
+
+.move-card.flip .move-icon {
+    color: #8B5E3C;
+}
 
 .move-name {
     font-size: 2.15rem;
@@ -469,9 +483,20 @@ body {
     z-index: 2;
 }
 
-.move-card.shift .move-algo { background: rgba(215, 166, 105, 0.18); color: #B5651D; }
-.move-card.swap .move-algo { background: rgba(42, 124, 111, 0.18); color: #2A7C6F; }
-.move-card.flip .move-algo { background: rgba(139, 94, 60, 0.18); color: #8B5E3C; }
+.move-card.shift .move-algo {
+    background: rgba(215, 166, 105, 0.18);
+    color: #B5651D;
+}
+
+.move-card.swap .move-algo {
+    background: rgba(42, 124, 111, 0.18);
+    color: #2A7C6F;
+}
+
+.move-card.flip .move-algo {
+    background: rgba(139, 94, 60, 0.18);
+    color: #8B5E3C;
+}
 
 .move-text {
     color: #383838;
@@ -601,7 +626,7 @@ body {
     font-size: 1.95rem;
     font-weight: 400;
     color: #0F0F0F;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, border-color 0.3s ease;
 }
 
@@ -883,9 +908,13 @@ body {
 }
 
 @keyframes creepy-blink {
-    0%, 92%, 100% {
+
+    0%,
+    92%,
+    100% {
         height: 14px;
     }
+
     96% {
         height: 0px;
     }
@@ -959,13 +988,89 @@ body {
 
 .sandbox-card {
     background: #FDFBF7;
-    border: 1px solid #EAE3D2;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    border: 1.5px solid rgba(17, 17, 17, 0.18);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* ENCRYPTION CARD (#ACD0F6 + SHADER BACKGROUND) */
+.sandbox-card.encrypt-card {
+    background: linear-gradient(135deg, #ACD0F6 0%, #BFE1FF 50%, #9BC5F3 100%) !important;
+    border: 1.5px solid #111111 !important;
+    box-shadow: 0 14px 40px rgba(172, 208, 246, 0.45) !important;
+}
+
+.sandbox-card.encrypt-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.6) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(147, 197, 253, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+    background-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sandbox-card.encrypt-card .input-group input {
+    background: #FFFFFF !important;
+    border: 1.5px solid #111111 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.sandbox-card.encrypt-card .result-row {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1.5px solid rgba(17, 17, 17, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* DECRYPTION CARD (#E4ECEF + SHADER BACKGROUND) */
+.sandbox-card.decrypt-card {
+    background: linear-gradient(135deg, #E4ECEF 0%, #F0F5F7 50%, #D5E2E6 100%) !important;
+    border: 1.5px solid #111111 !important;
+    box-shadow: 0 14px 40px rgba(228, 236, 239, 0.6) !important;
+}
+
+.sandbox-card.decrypt-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.7) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(186, 206, 214, 0.55) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+    background-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sandbox-card.decrypt-card .input-group input {
+    background: #E4ECEF !important;
+    border: 1.5px solid #111111 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.sandbox-card.decrypt-card .result-row {
+    background: rgba(228, 236, 239, 0.9) !important;
+    border: 1.5px solid rgba(17, 17, 17, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.sandbox-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .panel-header h3 {
@@ -1111,103 +1216,142 @@ footer {
 
 /* Automatic Intro Preloader Overlay */
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 100%;
-  background: #07090e;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  z-index: 1000;
-  pointer-events: none;
-  clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    background: #07090e;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    z-index: 1000;
+    pointer-events: none;
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+    overflow: hidden;
 }
 
 .preloader-presents-col {
-  width: 100%;
-  text-align: center;
+    width: 100%;
+    text-align: center;
 }
 
 .overlay h2 {
-  margin: 0;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  font-size: clamp(3.2rem, 9.5vw, 9.5rem);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  line-height: 0.95;
-  color: #ffffff;
-  text-transform: uppercase;
-  text-align: center;
+    margin: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    font-size: clamp(3.2rem, 9.5vw, 9.5rem);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    line-height: 0.95;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .overlay h2 div {
-  overflow: hidden;
-  will-change: transform;
+    overflow: hidden;
+    will-change: transform;
 }
 
 /* 10 Multi-Layered Shutter Image Stack Loader */
 .loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 100%;
-  z-index: 500;
-  pointer-events: none;
-  clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 500;
+    pointer-events: none;
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+    overflow: hidden;
 }
 
 .loader .img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 100%;
-  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-  will-change: clip-path, transform;
-  overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+    will-change: clip-path, transform;
+    overflow: hidden;
 }
 
 .loader .img img {
-  width: 100vw;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 /* Layer Contrast & Scale Tuning for Shutter Effect */
-.loader .img.layer-1 img { filter: contrast(1.2) brightness(0.95) saturate(1.1); transform: scale(1.02); }
-.loader .img.layer-2 img { filter: contrast(1.3) brightness(0.9) hue-rotate(-10deg); transform: scale(1.02); }
-.loader .img.layer-3 img { filter: contrast(1.25) brightness(1) saturate(1.2); transform: scale(1.01); }
-.loader .img.layer-4 img { filter: contrast(1.1) brightness(0.85); transform: scale(1.01); }
-.loader .img.layer-5 img { filter: contrast(1.3) brightness(1.05) saturate(1.3); transform: scale(1.03); }
-.loader .img.layer-6 img { filter: contrast(1.2) brightness(0.95); transform: scale(1.01); }
-.loader .img.layer-7 img { filter: contrast(1.4) brightness(0.85) saturate(1.2); transform: scale(1.02); }
-.loader .img.layer-8 img { filter: contrast(1.15) brightness(1); transform: scale(1.01); }
-.loader .img.layer-9 img { filter: contrast(1.35) brightness(0.9) saturate(1.1); transform: scale(1.02); }
-.loader .img.layer-10 img { filter: contrast(1.1) brightness(1.05); transform: scale(1); }
+.loader .img.layer-1 img {
+    filter: contrast(1.2) brightness(0.95) saturate(1.1);
+    transform: scale(1.02);
+}
+
+.loader .img.layer-2 img {
+    filter: contrast(1.3) brightness(0.9) hue-rotate(-10deg);
+    transform: scale(1.02);
+}
+
+.loader .img.layer-3 img {
+    filter: contrast(1.25) brightness(1) saturate(1.2);
+    transform: scale(1.01);
+}
+
+.loader .img.layer-4 img {
+    filter: contrast(1.1) brightness(0.85);
+    transform: scale(1.01);
+}
+
+.loader .img.layer-5 img {
+    filter: contrast(1.3) brightness(1.05) saturate(1.3);
+    transform: scale(1.03);
+}
+
+.loader .img.layer-6 img {
+    filter: contrast(1.2) brightness(0.95);
+    transform: scale(1.01);
+}
+
+.loader .img.layer-7 img {
+    filter: contrast(1.4) brightness(0.85) saturate(1.2);
+    transform: scale(1.02);
+}
+
+.loader .img.layer-8 img {
+    filter: contrast(1.15) brightness(1);
+    transform: scale(1.01);
+}
+
+.loader .img.layer-9 img {
+    filter: contrast(1.35) brightness(0.9) saturate(1.1);
+    transform: scale(1.02);
+}
+
+.loader .img.layer-10 img {
+    filter: contrast(1.1) brightness(1.05);
+    transform: scale(1);
+}
 
 /* ============================================================
    INTERACTIVE HOVER ALGORITHM EXPLANATION TOOLTIPS
@@ -1357,7 +1501,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     transition: all 0.25s ease;
 }
 
@@ -1521,9 +1665,17 @@ footer {
     height: 100%;
 }
 
-.framer-shape-bg-accent.shift-accent { color: #E85D6B; }
-.framer-shape-bg-accent.swap-accent  { color: #C8E24C; }
-.framer-shape-bg-accent.flip-accent  { color: #A9A3E8; }
+.framer-shape-bg-accent.shift-accent {
+    color: #E85D6B;
+}
+
+.framer-shape-bg-accent.swap-accent {
+    color: #C8E24C;
+}
+
+.framer-shape-bg-accent.flip-accent {
+    color: #A9A3E8;
+}
 
 .move-card:hover .framer-shape-bg-accent {
     opacity: 0.32;
@@ -1549,8 +1701,15 @@ footer {
 }
 
 @keyframes floatVector {
-    0% { transform: translateY(0) scale(1); filter: drop-shadow(0 2px 8px rgba(215, 166, 105, 0.2)); }
-    100% { transform: translateY(-10px) scale(1.05); filter: drop-shadow(0 6px 18px rgba(215, 166, 105, 0.5)); }
+    0% {
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 2px 8px rgba(215, 166, 105, 0.2));
+    }
+
+    100% {
+        transform: translateY(-10px) scale(1.05);
+        filter: drop-shadow(0 6px 18px rgba(215, 166, 105, 0.5));
+    }
 }
 
 /* Plaintext Journey Ambient Background Vectors */
@@ -1585,13 +1744,27 @@ footer {
 }
 
 @keyframes pulseVector1 {
-    0% { transform: rotate(-25deg) scale(1); opacity: 0.08; }
-    100% { transform: rotate(-20deg) scale(1.12); opacity: 0.22; }
+    0% {
+        transform: rotate(-25deg) scale(1);
+        opacity: 0.08;
+    }
+
+    100% {
+        transform: rotate(-20deg) scale(1.12);
+        opacity: 0.22;
+    }
 }
 
 @keyframes pulseVector2 {
-    0% { transform: rotate(18deg) scale(1); opacity: 0.08; }
-    100% { transform: rotate(24deg) scale(1.15); opacity: 0.24; }
+    0% {
+        transform: rotate(18deg) scale(1);
+        opacity: 0.08;
+    }
+
+    100% {
+        transform: rotate(24deg) scale(1.15);
+        opacity: 0.24;
+    }
 }
 
 /* Sandbox Card Vector Watermark */
@@ -1630,5 +1803,100 @@ footer {
     border-radius: 8px;
     margin-bottom: 14px;
     letter-spacing: 1.5px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   FLOATING BACKGROUND MUSIC TOGGLE BUTTON
+   ============================================================ */
+.music-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9990;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0F0F0F;
+    color: #FFFFFF;
+    border: 1.5px solid rgba(215, 166, 105, 0.4);
+    border-radius: 40px;
+    padding: 10px 18px 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    backdrop-filter: blur(12px);
+}
+
+.music-toggle-btn:hover {
+    background: #1A1A1A;
+    border-color: #D7A669;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    transform: translateY(-2px);
+}
+
+.music-toggle-btn.playing {
+    border-color: #D7A669;
+}
+
+.music-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.music-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.music-label {
+    color: #D7A669;
+    white-space: nowrap;
+}
+
+/* Animated Equalizer Bars */
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+    margin-left: 4px;
+}
+
+.music-bars .bar {
+    width: 3px;
+    background: #D7A669;
+    border-radius: 2px;
+    height: 4px;
+    transition: height 0.15s ease;
+}
+
+/* Static bars when paused */
+.music-toggle-btn:not(.playing) .music-bars .bar {
+    height: 4px !important;
+    animation: none !important;
+}
+
+/* Animated bars when playing */
+.music-toggle-btn.playing .music-bars .bar {
+    animation: eqBounce 0.8s ease-in-out infinite alternate;
+}
+
+.music-toggle-btn.playing .music-bars .bar:nth-child(1) { animation-delay: 0s; }
+.music-toggle-btn.playing .music-bars .bar:nth-child(2) { animation-delay: 0.15s; }
+.music-toggle-btn.playing .music-bars .bar:nth-child(3) { animation-delay: 0.3s; }
+.music-toggle-btn.playing .music-bars .bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes eqBounce {
+    0%   { height: 4px; }
+    100% { height: 14px; }
 }

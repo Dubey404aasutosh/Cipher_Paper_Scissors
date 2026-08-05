@@ -916,4 +916,34 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+    // =========================================================
+    // BACKGROUND MUSIC PLAYER TOGGLE
+    // =========================================================
+    const bgMusic = document.getElementById("bg-music");
+    const musicToggle = document.getElementById("music-toggle");
+    const musicPlayIcon = document.querySelector(".music-play-icon");
+    const musicPauseIcon = document.querySelector(".music-pause-icon");
+
+    if (bgMusic && musicToggle) {
+        bgMusic.volume = 0.35;
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggle.classList.remove("playing");
+                if (musicPlayIcon) musicPlayIcon.style.display = "";
+                if (musicPauseIcon) musicPauseIcon.style.display = "none";
+            } else {
+                bgMusic.play().catch(() => {});
+                musicToggle.classList.add("playing");
+                if (musicPlayIcon) musicPlayIcon.style.display = "none";
+                if (musicPauseIcon) musicPauseIcon.style.display = "";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        musicToggle.addEventListener("click", toggleMusic);
+    }
 });
