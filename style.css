@@ -489,7 +489,7 @@ body {
    ============================================================ */
 .journey-section {
     position: relative;
-    height: 115vh; /* Tight height to eliminate empty gap below */
+    height: 320vh; /* Extended resistive honey-smooth scroll track so every stage (0, 1, 2, 3) receives ample reading distance */
     background: #FAF8EE;
     border-top: 1px solid rgba(17, 17, 17, 0.15);
     border-bottom: 1px solid rgba(17, 17, 17, 0.15);

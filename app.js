@@ -252,16 +252,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     trigger: "#journey",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.8, // Honey smooth inertia scroll physics
+                    scrub: 1.2, // Heavy honey-smooth resistive inertia scroll physics
                     onUpdate: (self) => {
                         const progress = self.progress;
                         let currentStage = 0;
 
+                        // Perfectly balanced 25% scroll tracks for Stage 0, Stage 1, Stage 2, and Stage 3
                         if (progress >= 0.75) {
                             currentStage = 3;
-                        } else if (progress >= 0.45) {
+                        } else if (progress >= 0.50) {
                             currentStage = 2;
-                        } else if (progress >= 0.18) {
+                        } else if (progress >= 0.25) {
                             currentStage = 1;
                         } else {
                             currentStage = 0;
