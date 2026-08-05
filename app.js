@@ -106,53 +106,53 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         const stageDescs = [
-            "Raw input string 'SERENOVA' converted to upper-case letter vectors [0-25] before encryption.",
-            "Each letter index is rotated forward by key k₁ = 3 (mod 26). Pre-whitens letter frequency structure.",
-            "Text is split into digraph pairs (VH, UH, QR, YD) & swapped using a 5x5 Playfair grid matrix [Key: ZEUS] to defeat single-character frequency analysis.",
-            "Applies 5-bit XOR between letter indices and key stream 'K' (index 10), mapped losslessly back into [A-Z] domain to generate final ciphertext GOWOFLPR."
+            "Raw input string 'SERENOVA' converted to upper-case letter indices [0-24] in the 25-letter Playfair alphabet (A-I, K-Z — J merges with I).",
+            "Each letter index is rotated forward by key k₁ = 3 (mod 25). Pre-whitens letter frequency structure.",
+            "Text is split into digraph pairs (VH, UH, QR, YD) & swapped using a 5×5 Playfair grid matrix [Key: ZEUS] to defeat single-character frequency analysis.",
+            "Applies modular addition between letter indices and key stream 'K' (index 9) mod 25 to generate final ciphertext CSITAWFQ."
         ];
 
         // Detailed math breakdown cards for each stage
         const stageMathData = [
-            // Stage 0
+            // Stage 0: Plaintext indices (25-letter alphabet)
             [
-                { from: "S", math: "Index 18", to: "18" },
+                { from: "S", math: "Index 17", to: "17" },
                 { from: "E", math: "Index 4", to: "4" },
-                { from: "R", math: "Index 17", to: "17" },
+                { from: "R", math: "Index 16", to: "16" },
                 { from: "E", math: "Index 4", to: "4" },
-                { from: "N", math: "Index 13", to: "13" },
-                { from: "O", math: "Index 14", to: "14" },
-                { from: "V", math: "Index 21", to: "21" },
+                { from: "N", math: "Index 12", to: "12" },
+                { from: "O", math: "Index 13", to: "13" },
+                { from: "V", math: "Index 20", to: "20" },
                 { from: "A", math: "Index 0", to: "0" }
             ],
-            // Stage 1: Shift (+3)
+            // Stage 1: Shift (+3 mod 25)
             [
-                { from: "S (18)", math: "+ 3 mod 26", to: "V (21)" },
-                { from: "E (4)", math: "+ 3 mod 26", to: "H (7)" },
-                { from: "R (17)", math: "+ 3 mod 26", to: "U (20)" },
-                { from: "E (4)", math: "+ 3 mod 26", to: "H (7)" },
-                { from: "N (13)", math: "+ 3 mod 26", to: "Q (16)" },
-                { from: "O (14)", math: "+ 3 mod 26", to: "R (17)" },
-                { from: "V (21)", math: "+ 3 mod 26", to: "Y (24)" },
-                { from: "A (0)", math: "+ 3 mod 26", to: "D (3)" }
+                { from: "S (17)", math: "+ 3 mod 25", to: "V (20)" },
+                { from: "E (4)", math: "+ 3 mod 25", to: "H (7)" },
+                { from: "R (16)", math: "+ 3 mod 25", to: "U (19)" },
+                { from: "E (4)", math: "+ 3 mod 25", to: "H (7)" },
+                { from: "N (12)", math: "+ 3 mod 25", to: "Q (15)" },
+                { from: "O (13)", math: "+ 3 mod 25", to: "R (16)" },
+                { from: "V (20)", math: "+ 3 mod 25", to: "Y (23)" },
+                { from: "A (0)", math: "+ 3 mod 25", to: "D (3)" }
             ],
-            // Stage 2: Swap (Playfair 5x5 Pairs)
+            // Stage 2: Swap (Playfair 5×5 Pairs)
             [
-                { from: "Pair 1: VH", math: "Matrix Swap", to: "WM" },
-                { from: "Pair 2: UH", math: "Matrix Swap", to: "VI" },
-                { from: "Pair 3: QR", math: "Matrix Swap", to: "VS" },
-                { from: "Pair 4: YD", math: "Matrix Swap", to: "ZB" }
+                { from: "Pair 1: VH", math: "Matrix Swap", to: "TI" },
+                { from: "Pair 2: UH", math: "Matrix Swap", to: "ZK" },
+                { from: "Pair 3: QR", math: "Matrix Swap", to: "RN" },
+                { from: "Pair 4: YD", math: "Matrix Swap", to: "WG" }
             ],
-            // Stage 3: Flip (XOR 'K' / 10)
+            // Stage 3: Flip (+K / index 9, mod 25)
             [
-                { from: "W (22)", math: "⊕ K (10)", to: "G (6)" },
-                { from: "M (12)", math: "⊕ K (10)", to: "O (14)" },
-                { from: "V (21)", math: "⊕ K (10)", to: "W (22)" },
-                { from: "I (8)", math: "⊕ K (10)", to: "O (14)" },
-                { from: "V (21)", math: "⊕ K (10)", to: "F (5)" },
-                { from: "S (18)", math: "⊕ K (10)", to: "L (11)" },
-                { from: "Z (25)", math: "⊕ K (10)", to: "P (15)" },
-                { from: "B (1)", math: "⊕ K (10)", to: "R (17)" }
+                { from: "T (18)", math: "+ K (9) mod 25", to: "C (2)" },
+                { from: "I (8)", math: "+ K (9) mod 25", to: "S (17)" },
+                { from: "Z (24)", math: "+ K (9) mod 25", to: "I (8)" },
+                { from: "K (9)", math: "+ K (9) mod 25", to: "T (18)" },
+                { from: "R (16)", math: "+ K (9) mod 25", to: "A (0)" },
+                { from: "N (12)", math: "+ K (9) mod 25", to: "W (21)" },
+                { from: "W (21)", math: "+ K (9) mod 25", to: "F (5)" },
+                { from: "G (6)", math: "+ K (9) mod 25", to: "Q (15)" }
             ]
         ];
 
@@ -335,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resultsTitle) resultsTitle.innerText = "Step-by-Step Encryption Output";
             if (inputLabel) inputLabel.innerText = "PLAINTEXT (Letters Only)";
             if (actionBtn) actionBtn.innerText = "Encrypt Text";
-            if (inputText && !inputText.value) inputText.value = "SERENOVA";
         } else {
             if (tabDecrypt) tabDecrypt.classList.add("active");
             if (tabEncrypt) tabEncrypt.classList.remove("active");
@@ -343,7 +342,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resultsTitle) resultsTitle.innerText = "Step-by-Step Decryption Output";
             if (inputLabel) inputLabel.innerText = "CIPHERTEXT (Encrypted Letters)";
             if (actionBtn) actionBtn.innerText = "Decrypt Text";
-            if (inputText) inputText.value = "GOWOFLPR";
+
+            // Automatically set input box to current encrypted ciphertext output
+            if (resFinal && resFinal.innerText) {
+                if (inputText) inputText.value = resFinal.innerText;
+            }
         }
         runSandboxCipher();
     }

@@ -1,261 +1,178 @@
 /**
- * CIPHER, PAPER, SCISSORS (CPS-26) - Cryptographic Engine
+ * CIPHER, PAPER, SCISSORS (CPS-25) — Cryptographic Engine
  * Team: GreekGods (Aasutosh, Harshit, Kapil)
- * 
- * Algorithm Stages:
- *  1. SHIFT (Caesar Cipher): Polyalphabetic / modular alphabet shift.
- *  2. SWAP  (Playfair Cipher): 5x5 key-generated matrix digraph substitution.
- *  3. FLIP  (Letter XOR): 5-bit letter-domain bitwise XOR mapped losslessly to A-Z.
+ *
+ * All three stages operate on the SAME 25-letter Playfair alphabet
+ * (A-I, K-Z — no J, which merges with I).  This guarantees every
+ * stage is a true bijection and decrypt(encrypt(x)) === x  ALWAYS.
+ *
+ *  1. SHIFT  (Caesar):    index′ = (index ± shift) mod 25
+ *  2. SWAP   (Playfair):  length-preserving 5×5 matrix substitution
+ *  3. FLIP   (Vigenère):  index′ = (index ± keyIndex) mod 25
  */
 
 const CPSCipher = (function () {
-    // Standard alphabet helper
-    const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    // 25-letter alphabet (standard Playfair — J merges with I)
+    const ALPHA = "ABCDEFGHIKLMNOPQRSTUVWXYZ";   // length 25
 
     /**
-     * Clean and prepare text (uppercase, A-Z only, replace J with I)
+     * Sanitise: uppercase, J→I, strip non-letters.
      */
     function cleanText(text) {
         if (!text) return "";
-        return text
-            .toUpperCase()
-            .replace(/J/g, "I")
-            .replace(/[^A-Z]/g, "");
+        return text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
     }
 
-    /**
-     * Stage 1: SHIFT (Caesar Cipher)
-     * Shift each character forward by shiftAmount (or backward if decrypting)
-     */
+    // ═══════════════════════════════════════════════════════════════════
+    //  Stage 1 — SHIFT  (Caesar on 25-letter alphabet)
+    // ═══════════════════════════════════════════════════════════════════
     function caesarTransform(text, shiftAmount, decrypt = false) {
         const cleaned = cleanText(text);
-        const effectiveShift = decrypt ? (26 - (shiftAmount % 26)) % 26 : (shiftAmount % 26);
-        let result = "";
-
-        for (let i = 0; i < cleaned.length; i++) {
-            const idx = ALPHABET.indexOf(cleaned[i]);
-            if (idx !== -1) {
-                const newIdx = (idx + effectiveShift) % 26;
-                result += ALPHABET[newIdx];
-            }
+        const s = ((parseInt(shiftAmount, 10) || 0) % 25 + 25) % 25;
+        const eff = decrypt ? (25 - s) % 25 : s;
+        let out = "";
+        for (const ch of cleaned) {
+            const i = ALPHA.indexOf(ch);
+            out += i === -1 ? ch : ALPHA[(i + eff) % 25];
         }
-        return result;
+        return out;
     }
 
-    /**
-     * Generate 5x5 Playfair Matrix from keyword
-     */
+    // ═══════════════════════════════════════════════════════════════════
+    //  Stage 2 — SWAP  (Playfair 5×5)
+    // ═══════════════════════════════════════════════════════════════════
+
     function generatePlayfairMatrix(key) {
-        const cleanedKey = cleanText(key);
-        let used = new Set();
-        let matrix = [];
+        const k = cleanText(key) || "ZEUS";
+        const used = new Set();
+        const flat = [];
+        for (const ch of k)     if (!used.has(ch)) { used.add(ch); flat.push(ch); }
+        for (const ch of ALPHA) if (!used.has(ch)) { used.add(ch); flat.push(ch); }
+        const grid = [];
+        for (let r = 0; r < 5; r++) grid.push(flat.slice(r * 5, (r + 1) * 5));
+        return { flat, grid };
+    }
 
-        // Insert key characters first
-        for (let char of cleanedKey) {
-            if (!used.has(char)) {
-                used.add(char);
-                matrix.push(char);
-            }
-        }
-
-        // Fill remaining alphabet (excluding J)
-        for (let char of ALPHABET) {
-            if (char === "J") continue;
-            if (!used.has(char)) {
-                used.add(char);
-                matrix.push(char);
-            }
-        }
-
-        // Format as 5x5 grid
-        let grid = [];
-        for (let r = 0; r < 5; r++) {
-            grid.push(matrix.slice(r * 5, (r + 1) * 5));
-        }
-
-        return { flat: matrix, grid: grid };
+    function findPos(flat, ch) {
+        const i = flat.indexOf(ch);
+        return i === -1 ? { r: 0, c: 0 } : { r: Math.floor(i / 5), c: i % 5 };
     }
 
     /**
-     * Prepare digraphs for Playfair (insert 'X' between duplicate pairs, pad if odd length)
-     */
-    function preparePlayfairDigraphs(text) {
-        const cleaned = cleanText(text);
-        let digraphs = [];
-        let i = 0;
-
-        while (i < cleaned.length) {
-            let char1 = cleaned[i];
-            let char2 = cleaned[i + 1];
-
-            if (!char2) {
-                // Single trailing char -> pad with 'X' (or 'Z' if char1 is 'X')
-                char2 = char1 === "X" ? "Z" : "X";
-                digraphs.push([char1, char2]);
-                i += 1;
-            } else if (char1 === char2) {
-                // Same char pair -> insert 'X' between them
-                let pad = char1 === "X" ? "Z" : "X";
-                digraphs.push([char1, pad]);
-                i += 1;
-            } else {
-                digraphs.push([char1, char2]);
-                i += 2;
-            }
-        }
-        return digraphs;
-    }
-
-    /**
-     * Find row and col of character in 5x5 matrix
-     */
-    function findMatrixPos(matrixFlat, char) {
-        const target = char === "J" ? "I" : char;
-        const idx = matrixFlat.indexOf(target);
-        return { row: Math.floor(idx / 5), col: idx % 5 };
-    }
-
-    /**
-     * Stage 2: SWAP (Playfair Cipher)
+     * Length-preserving Playfair:
+     *  • Pairs consecutive characters — NO filler insertion for duplicates.
+     *  • Odd trailing character gets a diagonal matrix shift.
+     *  • Duplicate pairs naturally use the "same-row" rule → fully invertible.
      */
     function playfairTransform(text, key, decrypt = false) {
-        const matrixObj = generatePlayfairMatrix(key);
-        const flat = matrixObj.flat;
+        const cleaned = cleanText(text);
+        const mat  = generatePlayfairMatrix(key);
+        const flat = mat.flat, grid = mat.grid;
+        const step = decrypt ? 4 : 1;
 
-        let pairs;
-        if (decrypt) {
-            const cleaned = cleanText(text);
-            pairs = [];
-            for (let i = 0; i < cleaned.length; i += 2) {
-                if (cleaned[i + 1]) {
-                    pairs.push([cleaned[i], cleaned[i + 1]]);
-                }
+        // Build pairs — no fillers, no padding
+        const pairs = [];
+        let idx = 0;
+        while (idx < cleaned.length) {
+            if (idx + 1 < cleaned.length) {
+                pairs.push([cleaned[idx], cleaned[idx + 1]]);
+                idx += 2;
+            } else {
+                pairs.push([cleaned[idx]]);
+                idx += 1;
             }
-        } else {
-            pairs = preparePlayfairDigraphs(text);
         }
 
         let result = "";
-        const step = decrypt ? 4 : 1; // Shift direction: +1 for Encrypt, +4 (-1 mod 5) for Decrypt
+        for (const pair of pairs) {
+            if (pair.length === 2) {
+                const a = findPos(flat, pair[0]);
+                const b = findPos(flat, pair[1]);
+                let r1 = a.r, c1 = a.c, r2 = b.r, c2 = b.c;
 
-        for (let [c1, c2] of pairs) {
-            const p1 = findMatrixPos(flat, c1);
-            const p2 = findMatrixPos(flat, c2);
-
-            let r1 = p1.row, c1_col = p1.col;
-            let r2 = p2.row, c2_col = p2.col;
-
-            if (r1 === r2) {
-                // Same Row -> Shift Columns
-                c1_col = (c1_col + step) % 5;
-                c2_col = (c2_col + step) % 5;
-            } else if (c1_col === c2_col) {
-                // Same Column -> Shift Rows
-                r1 = (r1 + step) % 5;
-                r2 = (r2 + step) % 5;
+                if (r1 === r2) {
+                    c1 = (c1 + step) % 5;
+                    c2 = (c2 + step) % 5;
+                } else if (c1 === c2) {
+                    r1 = (r1 + step) % 5;
+                    r2 = (r2 + step) % 5;
+                } else {
+                    const tmp = c1; c1 = c2; c2 = tmp;
+                }
+                result += grid[r1][c1] + grid[r2][c2];
             } else {
-                // Rectangle -> Swap Columns
-                let temp = c1_col;
-                c1_col = c2_col;
-                c2_col = temp;
+                const a = findPos(flat, pair[0]);
+                result += grid[(a.r + step) % 5][(a.c + step) % 5];
             }
-
-            result += matrixObj.grid[r1][c1_col];
-            result += matrixObj.grid[r2][c2_col];
         }
 
-        return { result: result, matrix: matrixObj.grid, digraphs: pairs };
+        return { result, matrix: grid, digraphs: pairs };
     }
 
-    /**
-     * Stage 3: FLIP (Letter-Domain XOR)
-     * Losslessly maps 5-bit bitwise XOR into A-Z range [0..25]
-     */
+    // ═══════════════════════════════════════════════════════════════════
+    //  Stage 3 — FLIP  (Vigenère-style modular addition on 25 letters)
+    //
+    //  Encrypt:  C = (P + K) mod 25
+    //  Decrypt:  P = (C − K + 25) mod 25
+    // ═══════════════════════════════════════════════════════════════════
+
     function letterXORSingle(pIdx, kIdx, decrypt = false) {
-        if (!decrypt) {
-            const raw = pIdx ^ kIdx;
-            if (raw >= 26) return raw - 6;      // Maps [26..31] -> [20..25]
-            if (raw >= 20) return (raw + 6) % 26; // Maps [20..25] -> [26..31] -> % 26 = [0..5]
-            return raw;                         // Maps [0..19]  -> [0..19]
-        } else {
-            let raw;
-            if (pIdx <= 5) {
-                raw = pIdx + 20;                // Landed from [20..25]
-            } else if (pIdx >= 20) {
-                raw = pIdx + 6;                 // Landed from [26..31]
-            } else {
-                raw = pIdx;                     // Landed from [0..19]
-            }
-            return raw ^ kIdx;
-        }
+        return decrypt
+            ? (pIdx - kIdx + 25) % 25
+            : (pIdx + kIdx) % 25;
     }
 
     function xorTransform(text, xorKey, decrypt = false) {
-        const cleanedText = cleanText(text);
-        const cleanedKey = cleanText(xorKey) || "KEY";
-        let result = "";
-
-        for (let i = 0; i < cleanedText.length; i++) {
-            const pIdx = ALPHABET.indexOf(cleanedText[i]);
-            const kIdx = ALPHABET.indexOf(cleanedKey[i % cleanedKey.length]);
-
-            const outIdx = letterXORSingle(pIdx, kIdx, decrypt);
-            result += ALPHABET[outIdx];
+        const ct = cleanText(text);
+        const ck = cleanText(xorKey) || "K";
+        let out = "";
+        for (let i = 0; i < ct.length; i++) {
+            const pi = ALPHA.indexOf(ct[i]);
+            const ki = ALPHA.indexOf(ck[i % ck.length]);
+            out += (pi !== -1 && ki !== -1)
+                ? ALPHA[letterXORSingle(pi, ki, decrypt)]
+                : ct[i];
         }
-
-        return result;
+        return out;
     }
 
-    /**
-     * Full Encryption Pipeline
-     */
-    function encrypt(plaintext, playfairKey = "GREEKGODS", caesarShiftVal = 3, xorKeyStr = "ZEUS") {
-        const stage1 = caesarTransform(plaintext, caesarShiftVal, false);
-        const stage2Obj = playfairTransform(stage1, playfairKey, false);
-        const stage3 = xorTransform(stage2Obj.result, xorKeyStr, false);
+    // ═══════════════════════════════════════════════════════════════════
+    //  Full Pipelines
+    // ═══════════════════════════════════════════════════════════════════
 
+    function encrypt(plaintext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K") {
+        const clean = cleanText(plaintext);
+        const s1    = caesarTransform(clean, caesarShift, false);
+        const s2    = playfairTransform(s1, playfairKey, false);
+        const s3    = xorTransform(s2.result, xorKey, false);
         return {
-            plaintext: cleanText(plaintext),
-            stage1_shift: stage1,
-            stage2_swap: stage2Obj.result,
-            stage2_digraphs: stage2Obj.digraphs,
-            playfair_matrix: stage2Obj.matrix,
-            stage3_flip: stage3,
-            keys: {
-                caesarShift: caesarShiftVal,
-                playfairKey: playfairKey,
-                xorKey: xorKeyStr
-            }
+            plaintext:       clean,
+            stage1_shift:    s1,
+            stage2_swap:     s2.result,
+            stage2_digraphs: s2.digraphs,
+            playfair_matrix: s2.matrix,
+            stage3_flip:     s3,
+            keys: { caesarShift, playfairKey, xorKey }
         };
     }
 
-    /**
-     * Full Decryption Pipeline
-     */
-    function decrypt(ciphertext, playfairKey = "GREEKGODS", caesarShiftVal = 3, xorKeyStr = "ZEUS") {
-        const unflip = xorTransform(ciphertext, xorKeyStr, true);
-        const unswapObj = playfairTransform(unflip, playfairKey, true);
-        const unshift = caesarTransform(unswapObj.result, caesarShiftVal, true);
-
+    function decrypt(ciphertext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K") {
+        const clean = cleanText(ciphertext);
+        const u3    = xorTransform(clean, xorKey, true);
+        const u2    = playfairTransform(u3, playfairKey, true);
+        const u1    = caesarTransform(u2.result, caesarShift, true);
         return {
-            ciphertext: cleanText(ciphertext),
-            unflip_swap: unflip,
-            unswap_shift: unswapObj.result,
-            recovered_plaintext: unshift
+            ciphertext:          clean,
+            unflip_swap:         u3,
+            unswap_shift:        u2.result,
+            recovered_plaintext: u1
         };
     }
 
     return {
-        cleanText,
-        caesarTransform,
-        generatePlayfairMatrix,
-        playfairTransform,
-        xorTransform,
-        encrypt,
-        decrypt
+        cleanText, caesarTransform, generatePlayfairMatrix,
+        playfairTransform, letterXORSingle, xorTransform,
+        encrypt, decrypt
     };
 })();
-
-if (typeof module !== "undefined" && module.exports) {
-    module.exports = CPSCipher;
-}
