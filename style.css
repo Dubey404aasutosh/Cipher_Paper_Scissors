@@ -1807,6 +1807,76 @@ footer {
 }
 
 /* ============================================================
+   C CODE COLLAPSIBLE DIALOG BELOW CARDS
+   ============================================================ */
+.c-code-dialog {
+    margin-top: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #EAE3D2;
+}
+
+.c-code-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    background: #0F0F0F;
+    color: #D7A669;
+    font-family: var(--font-ops);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.2s ease;
+}
+
+.c-code-toggle::-webkit-details-marker { display: none; }
+
+.c-code-toggle::before {
+    content: "▸";
+    font-size: 0.9rem;
+    transition: transform 0.25s ease;
+}
+
+.c-code-dialog[open] .c-code-toggle::before {
+    transform: rotate(90deg);
+}
+
+.c-code-toggle:hover {
+    background: #1A1A1A;
+}
+
+.c-code-body {
+    background: #0A0A0A;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.c-code-body pre {
+    margin: 0;
+    padding: 16px 20px;
+    overflow-x: auto;
+}
+
+.c-code-body code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.75rem;
+    line-height: 1.65;
+    color: #C8D3DA;
+    white-space: pre;
+    tab-size: 4;
+}
+
+/* Scrollbar for code body */
+.c-code-body::-webkit-scrollbar { width: 6px; }
+.c-code-body::-webkit-scrollbar-track { background: #0A0A0A; }
+.c-code-body::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* ============================================================
    FLOATING BACKGROUND MUSIC WAVE TOGGLE (NO BOX)
    ============================================================ */
 .music-wave-toggle {
@@ -1837,19 +1907,19 @@ footer {
 
 /* Flat line when paused */
 .music-wave-toggle:not(.playing) .wave-path {
-    d: path("M0,12 L20,12 L40,12 L60,12 L80,12");
+    d: path("M2,16 C12,16 12,16 20,16 C28,16 28,16 40,16 C52,16 52,16 60,16 C68,16 68,16 78,16");
     animation: none !important;
 }
 
 /* Animated wave when playing */
 .music-wave-toggle.playing .wave-path {
-    animation: waveMove 1.5s ease-in-out infinite;
+    animation: waveMove 1.8s ease-in-out infinite;
 }
 
 @keyframes waveMove {
-    0%   { d: path("M0,12 Q10,2 20,12 T40,12 T60,12 T80,12"); }
-    25%  { d: path("M0,12 Q10,20 20,12 T40,12 T60,12 T80,12"); }
-    50%  { d: path("M0,12 Q10,12 20,4 T40,20 T60,4 T80,12"); }
-    75%  { d: path("M0,12 Q10,4 20,18 T40,6 T60,18 T80,12"); }
-    100% { d: path("M0,12 Q10,2 20,12 T40,12 T60,12 T80,12"); }
+    0%   { d: path("M2,16 C8,6 14,6 20,16 C26,26 32,26 40,16 C48,6 54,6 60,16 C66,26 72,26 78,16"); }
+    25%  { d: path("M2,16 C8,26 14,26 20,16 C26,6 32,6 40,16 C48,26 54,26 60,16 C66,6 72,6 78,16"); }
+    50%  { d: path("M2,16 C8,8 14,8 20,16 C26,24 32,24 40,16 C48,8 54,8 60,16 C66,24 72,24 78,16"); }
+    75%  { d: path("M2,16 C8,24 14,24 20,16 C26,8 32,8 40,16 C48,24 54,24 60,16 C66,8 72,8 78,16"); }
+    100% { d: path("M2,16 C8,6 14,6 20,16 C26,26 32,26 40,16 C48,6 54,6 60,16 C66,26 72,26 78,16"); }
 }

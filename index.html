@@ -313,6 +313,105 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- C Code Dialog -->
+                    <details class="c-code-dialog">
+                        <summary class="c-code-toggle">View Encryption in C Code</summary>
+                        <div class="c-code-body">
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;ctype.h&gt;
+
+#define MOD 26
+
+/* ── Stage 1: Caesar Cipher (SHIFT) ── */
+void caesarEncrypt(char *text, int shift, char *out) {
+    int len = strlen(text);
+    for (int i = 0; i &lt; len; i++) {
+        int idx = text[i] - 'A';
+        out[i] = 'A' + (idx + shift) % MOD;
+    }
+    out[len] = '\0';
+}
+
+/* ── Stage 2: Playfair 2×13 Matrix (SWAP) ── */
+void buildMatrix(const char *key, char grid[2][13]) {
+    int used[26] = {0}, pos = 0;
+    for (int i = 0; key[i]; i++)
+        if (!used[key[i] - 'A']) {
+            used[key[i] - 'A'] = 1;
+            grid[pos / 13][pos % 13] = key[i];
+            pos++;
+        }
+    for (int c = 0; c &lt; 26; c++)
+        if (!used[c]) {
+            grid[pos / 13][pos % 13] = 'A' + c;
+            pos++;
+        }
+}
+
+void playfairEncrypt(char *text, char grid[2][13], char *out) {
+    int len = strlen(text), oi = 0;
+    for (int i = 0; i &lt; len; i += 2) {
+        int r1, c1, r2, c2;
+        /* Find positions in 2×13 grid */
+        for (int p = 0; p &lt; 26; p++) {
+            if (grid[p/13][p%13] == text[i])
+                { r1 = p/13; c1 = p%13; }
+            if (i+1 &lt; len &amp;&amp; grid[p/13][p%13] == text[i+1])
+                { r2 = p/13; c2 = p%13; }
+        }
+        if (i+1 &gt;= len) {
+            out[oi++] = grid[(r1+1)%2][(c1+1)%13];
+        } else if (r1 == r2) {
+            out[oi++] = grid[r1][(c1+1)%13];
+            out[oi++] = grid[r2][(c2+1)%13];
+        } else if (c1 == c2) {
+            out[oi++] = grid[(r1+1)%2][c1];
+            out[oi++] = grid[(r2+1)%2][c2];
+        } else {
+            out[oi++] = grid[r1][c2];
+            out[oi++] = grid[r2][c1];
+        }
+    }
+    out[oi] = '\0';
+}
+
+/* ── Stage 3: Vigenere XOR (FLIP) ── */
+void xorEncrypt(char *text, const char *key, char *out) {
+    int len = strlen(text), klen = strlen(key);
+    for (int i = 0; i &lt; len; i++) {
+        int pi = text[i] - 'A';
+        int ki = key[i % klen] - 'A';
+        out[i] = 'A' + (pi + ki) % MOD;
+    }
+    out[len] = '\0';
+}
+
+/* ── Full Encryption Pipeline ── */
+int main() {
+    char plain[100], s1[100], s2[100], cipher[100];
+    char grid[2][13];
+    int shift = 3;
+    char *gridKey = "ZEUS", *xorKey = "K";
+
+    printf("Enter plaintext: ");
+    scanf("%s", plain);
+    for (int i = 0; plain[i]; i++)
+        plain[i] = toupper(plain[i]);
+
+    caesarEncrypt(plain, shift, s1);
+    buildMatrix(gridKey, grid);
+    playfairEncrypt(s1, grid, s2);
+    xorEncrypt(s2, xorKey, cipher);
+
+    printf("Stage 1 (Caesar):   %s\n", s1);
+    printf("Stage 2 (Playfair): %s\n", s2);
+    printf("Stage 3 (XOR):      %s\n", cipher);
+    return 0;
+}</code></pre>
+                        </div>
+                    </details>
                 </div>
 
                 <!-- PANEL 2: DECRYPTION MATRIX -->
@@ -381,6 +480,104 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- C Code Dialog -->
+                    <details class="c-code-dialog">
+                        <summary class="c-code-toggle">View Decryption in C Code</summary>
+                        <div class="c-code-body">
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;ctype.h&gt;
+
+#define MOD 26
+
+/* ── Reverse Stage 3: Vigenere UN-XOR ── */
+void xorDecrypt(char *text, const char *key, char *out) {
+    int len = strlen(text), klen = strlen(key);
+    for (int i = 0; i &lt; len; i++) {
+        int ci = text[i] - 'A';
+        int ki = key[i % klen] - 'A';
+        out[i] = 'A' + (ci - ki + MOD) % MOD;
+    }
+    out[len] = '\0';
+}
+
+/* ── Reverse Stage 2: Playfair 2×13 UN-SWAP ── */
+void buildMatrix(const char *key, char grid[2][13]) {
+    int used[26] = {0}, pos = 0;
+    for (int i = 0; key[i]; i++)
+        if (!used[key[i] - 'A']) {
+            used[key[i] - 'A'] = 1;
+            grid[pos / 13][pos % 13] = key[i];
+            pos++;
+        }
+    for (int c = 0; c &lt; 26; c++)
+        if (!used[c]) {
+            grid[pos / 13][pos % 13] = 'A' + c;
+            pos++;
+        }
+}
+
+void playfairDecrypt(char *text, char grid[2][13], char *out) {
+    int len = strlen(text), oi = 0;
+    for (int i = 0; i &lt; len; i += 2) {
+        int r1, c1, r2, c2;
+        for (int p = 0; p &lt; 26; p++) {
+            if (grid[p/13][p%13] == text[i])
+                { r1 = p/13; c1 = p%13; }
+            if (i+1 &lt; len &amp;&amp; grid[p/13][p%13] == text[i+1])
+                { r2 = p/13; c2 = p%13; }
+        }
+        if (i+1 &gt;= len) {
+            out[oi++] = grid[(r1+1)%2][(c1+12)%13];
+        } else if (r1 == r2) {
+            out[oi++] = grid[r1][(c1+12)%13]; /* -1 mod 13 */
+            out[oi++] = grid[r2][(c2+12)%13];
+        } else if (c1 == c2) {
+            out[oi++] = grid[(r1+1)%2][c1];
+            out[oi++] = grid[(r2+1)%2][c2];
+        } else {
+            out[oi++] = grid[r1][c2];
+            out[oi++] = grid[r2][c1];
+        }
+    }
+    out[oi] = '\0';
+}
+
+/* ── Reverse Stage 1: Caesar UN-SHIFT ── */
+void caesarDecrypt(char *text, int shift, char *out) {
+    int len = strlen(text);
+    for (int i = 0; i &lt; len; i++) {
+        int idx = text[i] - 'A';
+        out[i] = 'A' + (idx - shift + MOD) % MOD;
+    }
+    out[len] = '\0';
+}
+
+/* ── Full Decryption Pipeline ── */
+int main() {
+    char cipher[100], u3[100], u2[100], plain[100];
+    char grid[2][13];
+    int shift = 3;
+    char *gridKey = "ZEUS", *xorKey = "K";
+
+    printf("Enter ciphertext: ");
+    scanf("%s", cipher);
+    for (int i = 0; cipher[i]; i++)
+        cipher[i] = toupper(cipher[i]);
+
+    xorDecrypt(cipher, xorKey, u3);
+    buildMatrix(gridKey, grid);
+    playfairDecrypt(u3, grid, u2);
+    caesarDecrypt(u2, shift, plain);
+
+    printf("Reverse 3 (UN-XOR):      %s\n", u3);
+    printf("Reverse 2 (UN-Playfair): %s\n", u2);
+    printf("Reverse 1 (UN-Caesar):   %s\n", plain);
+    return 0;
+}</code></pre>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div>
@@ -411,8 +608,8 @@
 
     <!-- Floating Music Wave Toggle (no box) -->
     <div id="music-toggle" class="music-wave-toggle" aria-label="Toggle Background Music">
-        <svg viewBox="0 0 80 24" width="80" height="24" fill="none" stroke="#D7A669" stroke-width="2.5" stroke-linecap="round">
-            <path class="wave-path" d="M0,12 Q10,2 20,12 T40,12 T60,12 T80,12"/>
+        <svg viewBox="0 0 80 32" width="80" height="28" fill="none" stroke="#D7A669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path class="wave-path" d="M2,16 C12,16 12,16 20,16 C28,16 28,16 40,16 C52,16 52,16 60,16 C68,16 68,16 78,16"/>
         </svg>
     </div>
 
