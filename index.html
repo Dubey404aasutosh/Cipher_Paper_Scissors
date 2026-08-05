@@ -63,7 +63,7 @@
         <div class="hero-page-frame">
             <!-- Floating Top Controls Overlay -->
             <div class="hero-top-controls">
-                <button id="debug-toggle-btn" class="debug-toggle-btn">🍄 DEBUG MODE: OFF</button>
+                <button id="debug-toggle-btn" class="debug-toggle-btn">DEBUG MODE: OFF</button>
             </div>
 
             <!-- Viewport Spotlight Hero Image Container -->
@@ -99,6 +99,9 @@
         <div class="moves-grid">
             <div class="move-card shift" data-tooltip="CAESAR CIPHER: Shifts each character forward in the 25-letter Playfair alphabet by key k₁ (mod 25). Formula: C₁ = (P + k₁) mod 25. Reversible via (C₁ - k₁ + 25) mod 25.">
                 <div class="card-spotlight"></div>
+                <div class="framer-shape-bg-accent shift-accent">
+                    <svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                </div>
                 <div class="card-top-row">
                     <div class="move-icon-wrapper">
                         <div class="gooey-blob-container">
@@ -107,7 +110,10 @@
                         </div>
                         <div class="move-icon">01</div>
                     </div>
-                    <span class="move-visual-badge">STAGE 1 • SHIFT</span>
+                    <span class="move-visual-badge">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        STAGE 1 • SHIFT
+                    </span>
                 </div>
                 <h3 class="move-name">Shift (Caesar)</h3>
                 <span class="move-algo">C₁ = (P + k₁) mod 26</span>
@@ -118,6 +124,9 @@
 
             <div class="move-card swap" data-tooltip="PLAYFAIR CIPHER: Splits pre-whiten text into digraph pairs and substitutes them using a dynamic 5x5 key matrix (ZEUS). Eliminates single-letter frequency patterns.">
                 <div class="card-spotlight"></div>
+                <div class="framer-shape-bg-accent swap-accent">
+                    <svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                </div>
                 <div class="card-top-row">
                     <div class="move-icon-wrapper">
                         <div class="gooey-blob-container">
@@ -126,7 +135,10 @@
                         </div>
                         <div class="move-icon">02</div>
                     </div>
-                    <span class="move-visual-badge">STAGE 2 • SWAP</span>
+                    <span class="move-visual-badge">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        STAGE 2 • SWAP
+                    </span>
                 </div>
                 <h3 class="move-name">Swap (Playfair)</h3>
                 <span class="move-algo">5x5 Grid Substitution</span>
@@ -137,6 +149,9 @@
 
             <div class="move-card flip" data-tooltip="LETTER XOR (FLIP): Performs modular addition between intermediate Playfair indices and secret key letter index (K). Formula: C₃ = (C₂ + K_idx) mod 25.">
                 <div class="card-spotlight"></div>
+                <div class="framer-shape-bg-accent flip-accent">
+                    <svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                </div>
                 <div class="card-top-row">
                     <div class="move-icon-wrapper">
                         <div class="gooey-blob-container">
@@ -145,7 +160,10 @@
                         </div>
                         <div class="move-icon">03</div>
                     </div>
-                    <span class="move-visual-badge">STAGE 3 • FLIP</span>
+                    <span class="move-visual-badge">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        STAGE 3 • FLIP
+                    </span>
                 </div>
                 <h3 class="move-name">Flip (Letter XOR)</h3>
                 <span class="move-algo">Bitwise XOR in [A-Z]</span>
@@ -156,16 +174,40 @@
         </div>
     </section>
 
+    <!-- Floating Framer Vector Accent Divider -->
+    <div class="floating-framer-vector-divider">
+        <svg viewBox="0 0 42 21" fill="currentColor" class="framer-divider-vector"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+    </div>
+
     <!-- Section 4: The Plaintext Journey (Detailed Cryptographic Step Flow) -->
     <section class="journey-section" id="journey">
         <canvas id="journey-shader-canvas" class="journey-shader-bg"></canvas>
+        
+        <!-- Ambient Decorative Vector Backdrop -->
+        <div class="journey-vector-backdrop">
+            <svg viewBox="0 0 42 21" fill="currentColor" class="journey-bg-vector-1"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+            <svg viewBox="0 0 42 21" fill="currentColor" class="journey-bg-vector-2"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+        </div>
+
         <div class="journey-sticky">
             <div class="word-display-box">
                 <div class="stage-indicator">
-                    <span class="stage-pill" id="pill-0" data-tooltip="STAGE 0 (PLAINTEXT): Raw input string sanitized (uppercase, J→I) and converted to 0-24 letter indices.">0. PLAINTEXT</span>
-                    <span class="stage-pill" id="pill-1" data-tooltip="STAGE 1 (CAESAR SHIFT): Every letter index is rotated forward by Caesar key k₁ = 3 (mod 25). Pre-whitens letter frequencies.">1. CAESAR</span>
-                    <span class="stage-pill" id="pill-2" data-tooltip="STAGE 2 (PLAYFAIR MATRIX): Text split into digraph pairs and substituted through a 5x5 key matrix [ZEUS].">2. PLAYFAIR</span>
-                    <span class="stage-pill" id="pill-3" data-tooltip="STAGE 3 (LETTER XOR / FLIP): Modular addition applied between Playfair characters and Key 'K' (index 9) mod 25.">3. XOR</span>
+                    <span class="stage-pill" id="pill-0" data-tooltip="STAGE 0 (PLAINTEXT): Raw input string sanitized (uppercase, J→I) and converted to 0-24 letter indices.">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        0. PLAINTEXT
+                    </span>
+                    <span class="stage-pill" id="pill-1" data-tooltip="STAGE 1 (CAESAR SHIFT): Every letter index is rotated forward by Caesar key k₁ = 3 (mod 25). Pre-whitens letter frequencies.">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        1. CAESAR
+                    </span>
+                    <span class="stage-pill" id="pill-2" data-tooltip="STAGE 2 (PLAYFAIR MATRIX): Text split into digraph pairs and substituted through a 5x5 key matrix [ZEUS].">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        2. PLAYFAIR
+                    </span>
+                    <span class="stage-pill" id="pill-3" data-tooltip="STAGE 3 (LETTER XOR / FLIP): Modular addition applied between Playfair characters and Key 'K' (index 9) mod 25.">
+                        <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                        3. XOR
+                    </span>
                 </div>
 
                 <div class="current-stage-title" id="stage-title">STAGE 0: ORIGINAL PLAINTEXT</div>
@@ -196,6 +238,10 @@
     <section class="sandbox-section" id="sandbox">
         <div class="container">
             <div class="sandbox-header">
+                <div class="sandbox-badge">
+                    <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                    LIVE SANDBOX
+                </div>
                 <h2>Interactive Cipher & Decryption Matrix</h2>
                 <p>Test real-time 3-stage Encryption and 3-stage Decryption with custom secret keys.</p>
             </div>
@@ -203,8 +249,14 @@
             <div class="sandbox-two-panels">
                 <!-- PANEL 1: ENCRYPTION MATRIX -->
                 <div class="sandbox-card encrypt-card">
+                    <div class="sandbox-card-vector-watermark">
+                        <svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                    </div>
                     <div class="panel-header">
-                        <h3>🔒 ENCRYPTION MATRIX</h3>
+                        <h3>
+                            <svg class="framer-shape-icon header-vector-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                            ENCRYPTION MATRIX
+                        </h3>
                         <p class="panel-subtitle">Convert Plaintext into Ciphertext (Shift → Swap → Flip)</p>
                     </div>
 
@@ -230,7 +282,14 @@
                         </div>
 
                         <div class="action-buttons">
-                            <button id="enc-action-btn" class="btn primary">Encrypt Text</button>
+                            <button id="enc-action-btn" class="creepy-button btn primary">
+                                <span class="creepy-eyes">
+                                    <span class="creepy-eye"><span class="creepy-pupil"></span></span>
+                                    <span class="creepy-eye"><span class="creepy-pupil"></span></span>
+                                </span>
+                                <span class="creepy-cover">Encrypt Text</span>
+                                <span class="creepy-placeholder">Encrypt Text</span>
+                            </button>
                             <button id="enc-clear-btn" class="btn secondary">Clear</button>
                         </div>
 
@@ -258,8 +317,14 @@
 
                 <!-- PANEL 2: DECRYPTION MATRIX -->
                 <div class="sandbox-card decrypt-card">
+                    <div class="sandbox-card-vector-watermark">
+                        <svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                    </div>
                     <div class="panel-header">
-                        <h3>🔓 DECRYPTION MATRIX</h3>
+                        <h3>
+                            <svg class="framer-shape-icon header-vector-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                            DECRYPTION MATRIX
+                        </h3>
                         <p class="panel-subtitle">Recover Original Plaintext from Ciphertext (XOR → Playfair → Caesar)</p>
                     </div>
 
@@ -285,7 +350,14 @@
                         </div>
 
                         <div class="action-buttons">
-                            <button id="dec-action-btn" class="btn primary">Decrypt Text</button>
+                            <button id="dec-action-btn" class="creepy-button btn primary">
+                                <span class="creepy-eyes">
+                                    <span class="creepy-eye"><span class="creepy-pupil"></span></span>
+                                    <span class="creepy-eye"><span class="creepy-pupil"></span></span>
+                                </span>
+                                <span class="creepy-cover">Decrypt Text</span>
+                                <span class="creepy-placeholder">Decrypt Text</span>
+                            </button>
                             <button id="dec-clear-btn" class="btn secondary">Clear</button>
                         </div>
 
@@ -319,7 +391,10 @@
         <div class="modal-card">
             <button id="modal-close-btn" class="modal-close">&times;</button>
             <div class="modal-header">
-                <span class="modal-badge" id="modal-badge">STAGE EXPLANATION</span>
+                <span class="modal-badge" id="modal-badge">
+                    <svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>
+                    STAGE EXPLANATION
+                </span>
                 <h3 id="modal-title">Algorithm Detailed Execution</h3>
                 <p id="modal-subtitle">Full step-by-step mathematical breakdown for your input.</p>
             </div>

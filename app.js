@@ -169,12 +169,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let lastStage = -1;
 
+        const framerShapeIconHtml = `<svg class="framer-shape-icon" viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>`;
+
         function renderStageDetails(stageIdx) {
             if (stageIdx === lastStage) return;
             lastStage = stageIdx;
 
-            if (stageTitleEl) stageTitleEl.innerText = stageTitles[stageIdx];
-            if (stageFormulaEl) stageFormulaEl.innerText = journeyData.stageFormulas[stageIdx];
+            if (stageTitleEl) stageTitleEl.innerHTML = `${framerShapeIconHtml} ${stageTitles[stageIdx]}`;
+            if (stageFormulaEl) stageFormulaEl.innerHTML = `${framerShapeIconHtml} ${journeyData.stageFormulas[stageIdx]}`;
             if (stageStepTagEl) stageStepTagEl.innerText = stageStepTags[stageIdx];
             if (stageDescEl) stageDescEl.innerText = journeyData.stageDescs[stageIdx];
 
@@ -250,14 +252,16 @@ document.addEventListener("DOMContentLoaded", () => {
             gsap.timeline({
                 scrollTrigger: {
                     trigger: "#journey",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1.2, // Heavy honey-smooth resistive inertia scroll physics
+                    start: "center center",
+                    end: "+=2200", // Exactly 2200px of smooth, resistive honey-scroll pin distance
+                    pin: true,
+                    pinSpacing: true,
+                    scrub: 1.0, // Honey smooth resistive scroll physics
                     onUpdate: (self) => {
                         const progress = self.progress;
                         let currentStage = 0;
 
-                        // Perfectly balanced 25% scroll tracks for Stage 0, Stage 1, Stage 2, and Stage 3
+                        // Balanced 25% scroll progress allocation for Stage 0, Stage 1, Stage 2, and Stage 3
                         if (progress >= 0.75) {
                             currentStage = 3;
                         } else if (progress >= 0.50) {
@@ -868,5 +872,48 @@ document.addEventListener("DOMContentLoaded", () => {
         card.addEventListener("mouseleave", () => {
             card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
         }, { passive: true });
+    });
+
+    // 7. CREEPY BUTTON INTERACTIVE EYE-TRACKING & COVER ANIMATION
+    const creepyButtons = document.querySelectorAll(".creepy-button");
+    creepyButtons.forEach(btn => {
+        const eyesContainer = btn.querySelector(".creepy-eyes");
+        const pupils = btn.querySelectorAll(".creepy-pupil");
+        if (!eyesContainer || pupils.length === 0) return;
+
+        const updateEyes = (e) => {
+            const eyesRect = eyesContainer.getBoundingClientRect();
+            const eyesCenter = {
+                x: eyesRect.left + eyesRect.width / 2,
+                y: eyesRect.top + eyesRect.height / 2
+            };
+
+            const dx = e.clientX - eyesCenter.x;
+            const dy = e.clientY - eyesCenter.y;
+            const angle = Math.atan2(-dy, dx) + Math.PI / 2;
+
+            const visionRangeX = 180;
+            const visionRangeY = 75;
+            const distance = Math.hypot(dx, dy);
+
+            const x = (Math.sin(angle) * Math.min(distance, visionRangeX)) / visionRangeX;
+            const y = (Math.cos(angle) * Math.min(distance, visionRangeY)) / visionRangeY;
+
+            pupils.forEach(pupil => {
+                pupil.style.transform = `translate(calc(-50% + ${x * 50}%), calc(-50% + ${y * 50}%))`;
+            });
+        };
+
+        btn.addEventListener("mousemove", (e) => {
+            updateEyes(e);
+            btn.classList.add("is-hovered");
+        });
+
+        btn.addEventListener("mouseleave", () => {
+            btn.classList.remove("is-hovered");
+            pupils.forEach(pupil => {
+                pupil.style.transform = "translate(-50%, -50%)";
+            });
+        });
     });
 });

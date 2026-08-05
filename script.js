@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("debug-mode", isDebugActive);
     if (debugToggleBtn) {
       debugToggleBtn.classList.toggle("active", isDebugActive);
-      debugToggleBtn.innerText = isDebugActive ? "🐞 DEBUG MODE: ON" : "🐞 DEBUG MODE: OFF";
+      debugToggleBtn.innerText = isDebugActive ? "DEBUG MODE: ON" : "DEBUG MODE: OFF";
     }
     if (debugStats) {
       debugStats.style.display = isDebugActive ? "flex" : "none";

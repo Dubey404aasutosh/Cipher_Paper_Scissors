@@ -16,14 +16,21 @@ class ScrollDragDoodleComponent {
       lerpFactor: options.lerpFactor || 0.12,
     };
 
-    // Source doodle SVG library with -15% reduced sizes (§7 spec)
+    // Source doodle SVG library with -15% reduced sizes (§7 spec) including Framer Shape 1 vectors
+    const framerShape1Svg = `<svg viewBox="0 0 42 21" fill="currentColor"><path d="M 41.99 21 L 32.449 21 C 32.449 14.672 27.318 9.551 21 9.551 C 14.682 9.551 9.551 14.682 9.551 21 L 0 21 C 0 9.403 9.403 0 21 0 C 32.597 0 42 9.403 42 21 Z"/></svg>`;
+
     this.doodleLibrary = [
+      { type: 'framer-arch-green', size: 68, color: '#C8E24C', svg: framerShape1Svg },
       { type: 'sparkle', size: 22, color: '#E85D6B', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2v20M2 12h20M6 6l12 12M6 18L18 6"/></svg>` },
+      { type: 'framer-arch-pink', size: 56, color: '#E85D6B', svg: framerShape1Svg },
       { type: 'squiggle', size: 60, color: '#C8E24C', svg: `<svg viewBox="0 0 70 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 10 Q 15 2, 26 10 T 48 10 T 66 10"/></svg>` },
       { type: 'heart', size: 29, color: '#E85D6B', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>` },
+      { type: 'framer-arch-purple', size: 74, color: '#A9A3E8', svg: framerShape1Svg },
       { type: 'thumb', size: 48, color: '#EFA13B', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 10v11d0 0h10a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3h-4.63l.93-4.46.03-.32a1.5 1.5 0 0 0-.44-1.06L13 2 7.59 7.41A2 2 0 0 0 7 8.83V10z"/></svg>` },
+      { type: 'framer-arch-orange', size: 60, color: '#EFA13B', svg: framerShape1Svg },
       { type: 'arc', size: 170, color: '#A9A3E8', svg: `<svg viewBox="0 0 200 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M10 30 Q 100 -10, 190 30"/></svg>` },
       { type: 'star', size: 26, color: '#EFA13B', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
+      { type: 'framer-arch-blue', size: 64, color: '#56CCF2', svg: framerShape1Svg },
       { type: 'zigzag', size: 51, color: '#16130F', svg: `<svg viewBox="0 0 60 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 16 L 16 4 L 28 16 L 40 4 L 52 16"/></svg>` },
       { type: 'runner', size: 39, color: '#C8E24C', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="14" cy="4" r="2"/><path d="M10 21l3-6 4 2"/><path d="M6 13l4-2 3 3"/><path d="M17 9l-4 1-2-3"/></svg>` },
       { type: 'hand', size: 54, color: '#EFA13B', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V2a2 2 0 0 0-4 0v9M6 14v-2a2 2 0 0 0-4 0v5a7 7 0 0 0 14 0v-3"/></svg>` },
