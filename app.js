@@ -1,6 +1,6 @@
 /* 
- * CIPHER, PAPER, SCISSORS - Step-by-Step Cryptographic Flow Controller
- * Detailed Character-by-Character Transformation Math Breakdown (Shift -> Swap -> Flip)
+ * CIPHER, PAPER, SCISSORS - Full Encryption & Decryption Controller
+ * Team: GreekGods (Aasutosh, Harshit, Kapil)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -199,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (stageStepTagEl) stageStepTagEl.innerText = stageStepTags[stageIdx];
             if (stageDescEl) stageDescEl.innerText = stageDescs[stageIdx];
 
-            // Render Math Breakdown Grid Cards
             if (stageMathGridEl) {
                 stageMathGridEl.innerHTML = "";
                 const items = stageMathData[stageIdx];
@@ -261,54 +260,116 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Render Initial Stage 0 Details
         renderStageDetails(0);
     }
 
-    // 3. LIVE INTERACTIVE SANDBOX MATRIX (SECTION 5)
+    // 3. LIVE INTERACTIVE ENCRYPTION & DECRYPTION SANDBOX MATRIX (SECTION 5)
+    let currentMode = "encrypt"; // "encrypt" | "decrypt"
+
+    const tabEncrypt = document.getElementById("tab-encrypt");
+    const tabDecrypt = document.getElementById("tab-decrypt");
+    const controlsTitle = document.getElementById("controls-title");
+    const resultsTitle = document.getElementById("results-title");
+    const inputLabel = document.getElementById("input-label");
+    const actionBtn = document.getElementById("action-btn");
+    const resetBtn = document.getElementById("reset-btn");
+
     const inputText = document.getElementById("input-text");
     const shiftKey = document.getElementById("shift-key");
     const matrixKey = document.getElementById("matrix-key");
     const xorKeyEl = document.getElementById("xor-key");
-    const encryptBtn = document.getElementById("encrypt-btn");
-    const resetBtn = document.getElementById("reset-btn");
+
+    const resInputLabel = document.getElementById("res-input-label");
+    const resShiftLabel = document.getElementById("res-shift-label");
+    const resSwapLabel = document.getElementById("res-swap-label");
+    const resFinalLabel = document.getElementById("res-final-label");
 
     const resInput = document.getElementById("res-input");
     const resShift = document.getElementById("res-shift");
     const resSwap = document.getElementById("res-swap");
     const resFinal = document.getElementById("res-final");
 
-    function runSandboxEncryption() {
+    function runSandboxCipher() {
         if (!inputText || typeof CPSCipher === "undefined") return;
 
-        const pText = inputText.value.trim() || "SERENOVA";
+        const rawText = inputText.value.trim();
         const sKey = parseInt(shiftKey ? shiftKey.value : 3) || 3;
         const mKey = (matrixKey ? matrixKey.value.trim() : "ZEUS") || "ZEUS";
         const xKey = (xorKeyEl ? xorKeyEl.value.trim() : "K") || "K";
 
-        const res = CPSCipher.encrypt(pText, mKey, sKey, xKey);
+        if (currentMode === "encrypt") {
+            const pText = rawText || "SERENOVA";
+            const res = CPSCipher.encrypt(pText, mKey, sKey, xKey);
 
-        if (resInput) resInput.innerText = res.plaintext;
-        if (resShift) resShift.innerText = res.stage1_shift;
-        if (resSwap) resSwap.innerText = res.stage2_swap;
-        if (resFinal) resFinal.innerText = res.stage3_flip;
+            if (resInputLabel) resInputLabel.innerText = "INPUT (PLAINTEXT):";
+            if (resShiftLabel) resShiftLabel.innerText = "MOVE 1 (SHIFT):";
+            if (resSwapLabel) resSwapLabel.innerText = "MOVE 2 (SWAP):";
+            if (resFinalLabel) resFinalLabel.innerText = "MOVE 3 (FLIP/CIPHERTEXT):";
+
+            if (resInput) resInput.innerText = res.plaintext;
+            if (resShift) resShift.innerText = res.stage1_shift;
+            if (resSwap) resSwap.innerText = res.stage2_swap;
+            if (resFinal) resFinal.innerText = res.stage3_flip;
+        } else {
+            const cText = rawText || "GOWOFLPR";
+            const dec = CPSCipher.decrypt(cText, mKey, sKey, xKey);
+
+            if (resInputLabel) resInputLabel.innerText = "INPUT (CIPHERTEXT):";
+            if (resShiftLabel) resShiftLabel.innerText = "REVERSE 3 (UNFLIP / XOR):";
+            if (resSwapLabel) resSwapLabel.innerText = "REVERSE 2 (UNSWAP / PLAYFAIR):";
+            if (resFinalLabel) resFinalLabel.innerText = "REVERSE 1 (UNSHIFT / RECOVERED PLAINTEXT):";
+
+            if (resInput) resInput.innerText = dec.ciphertext;
+            if (resShift) resShift.innerText = dec.unflip_swap;
+            if (resSwap) resSwap.innerText = dec.unswap_shift;
+            if (resFinal) resFinal.innerText = dec.recovered_plaintext;
+        }
     }
 
-    if (inputText) inputText.addEventListener("input", runSandboxEncryption);
-    if (shiftKey) shiftKey.addEventListener("input", runSandboxEncryption);
-    if (matrixKey) matrixKey.addEventListener("input", runSandboxEncryption);
-    if (xorKeyEl) xorKeyEl.addEventListener("input", runSandboxEncryption);
-    if (encryptBtn) encryptBtn.addEventListener("click", runSandboxEncryption);
+    function switchMode(mode) {
+        currentMode = mode;
+        if (mode === "encrypt") {
+            if (tabEncrypt) tabEncrypt.classList.add("active");
+            if (tabDecrypt) tabDecrypt.classList.remove("active");
+            if (controlsTitle) controlsTitle.innerText = "Encryption Controls";
+            if (resultsTitle) resultsTitle.innerText = "Step-by-Step Encryption Output";
+            if (inputLabel) inputLabel.innerText = "PLAINTEXT (Letters Only)";
+            if (actionBtn) actionBtn.innerText = "Encrypt Text";
+            if (inputText && !inputText.value) inputText.value = "SERENOVA";
+        } else {
+            if (tabDecrypt) tabDecrypt.classList.add("active");
+            if (tabEncrypt) tabEncrypt.classList.remove("active");
+            if (controlsTitle) controlsTitle.innerText = "Decryption Controls";
+            if (resultsTitle) resultsTitle.innerText = "Step-by-Step Decryption Output";
+            if (inputLabel) inputLabel.innerText = "CIPHERTEXT (Encrypted Letters)";
+            if (actionBtn) actionBtn.innerText = "Decrypt Text";
+            if (inputText) inputText.value = "GOWOFLPR";
+        }
+        runSandboxCipher();
+    }
+
+    if (tabEncrypt) tabEncrypt.addEventListener("click", () => switchMode("encrypt"));
+    if (tabDecrypt) tabDecrypt.addEventListener("click", () => switchMode("decrypt"));
+
+    if (inputText) inputText.addEventListener("input", runSandboxCipher);
+    if (shiftKey) shiftKey.addEventListener("input", runSandboxCipher);
+    if (matrixKey) matrixKey.addEventListener("input", runSandboxCipher);
+    if (xorKeyEl) xorKeyEl.addEventListener("input", runSandboxCipher);
+    if (actionBtn) actionBtn.addEventListener("click", runSandboxCipher);
 
     if (resetBtn) {
         resetBtn.addEventListener("click", () => {
-            if (inputText) inputText.value = "SERENOVA";
             if (shiftKey) shiftKey.value = "3";
             if (matrixKey) matrixKey.value = "ZEUS";
             if (xorKeyEl) xorKeyEl.value = "K";
-            runSandboxEncryption();
+            if (currentMode === "encrypt") {
+                if (inputText) inputText.value = "SERENOVA";
+            } else {
+                if (inputText) inputText.value = "GOWOFLPR";
+            }
+            runSandboxCipher();
         });
     }
 
-    runSandboxEncryption();
+    switchMode("encrypt");
 });

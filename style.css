@@ -1,5 +1,5 @@
 /* 
- * CIPHER, PAPER, SCISSORS - Detailed Cryptographic Step Flow Stylesheet
+ * CIPHER, PAPER, SCISSORS - Encryption & Decryption Matrix Stylesheet
  * Team: GreekGods (Aasutosh, Harshit, Kapil)
  */
 
@@ -476,7 +476,7 @@ body {
 }
 
 /* ============================================================
-   SECTION 5: INTERACTIVE SANDBOX GRID
+   SECTION 5: INTERACTIVE SANDBOX GRID & MODE TABS
    ============================================================ */
 .sandbox-section {
     padding: 100px 0;
@@ -513,18 +513,49 @@ body {
     background: #FFFFFF;
     border: 1px solid #111111;
     border-radius: 20px;
-    padding: 40px;
+    padding: 36px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.mode-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    background: #FDF6E3;
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid #111111;
+}
+
+.mode-tab {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #666666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.mode-tab.active {
+    background: #0F0F0F;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sandbox-panel h3 {
     font-size: 1.4rem;
     font-family: var(--font-heading);
     font-weight: 700;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     color: #0F0F0F;
     border-bottom: 1px solid #EEEEEE;
-    padding-bottom: 16px;
+    padding-bottom: 14px;
 }
 
 .input-group {
