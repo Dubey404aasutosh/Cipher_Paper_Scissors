@@ -12,6 +12,7 @@
     
     <!-- CSS System -->
     <link rel="stylesheet" href="style.css?v=40">
+    <link rel="stylesheet" href="scroll-drag-doodle.css?v=40">
 
     <!-- Libraries (GSAP + ScrollTrigger) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -74,13 +75,13 @@
         </div>
     </section>
 
-    <!-- Section 3: The Three Moves -->
-    <section class="three-moves container">
-        <h2 class="section-title">The Three Moves</h2>
-        <p class="section-desc">
-            How our hybrid cipher layers three distinct cryptographic primitives to eliminate frequency analysis and structure.
-        </p>
+    <!-- Section 3: PRD Scroll-Driven Horizontal Drag Text Animation with Doodle Stickers -->
+    <section class="scroll-drag-section" id="scroll-drag-section">
+        <div id="scroll-drag-doodle-container"></div>
+    </section>
 
+    <!-- Section 3B: The Three Moves Cards Grid -->
+    <section class="three-moves container">
         <div class="moves-grid">
             <div class="move-card shift">
                 <div class="move-icon">01</div>
@@ -214,6 +215,7 @@
     <script src="cipher.js?v=40"></script>
     <script src="script.js?v=40"></script>
     <script src="spotlight.js?v=40"></script>
+    <script src="scroll-drag-doodle.js?v=40"></script>
     <script src="app.js?v=40"></script>
 </body>
 </html>

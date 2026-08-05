@@ -1,0 +1,130 @@
+/* 
+ * SCROLL-DRIVEN HORIZONTAL DRAG TEXT ANIMATION STYLESHEET
+ * Strict 3-State Pinning Mechanics, Display Typography & Hand-Drawn Doodle Stickers (-15% spec)
+ */
+
+:root {
+  --scroll-drag-bg: #F0ECE3;
+  --scroll-drag-ink: #16130F;
+  --scroll-drag-lime: #C8E24C;
+  --scroll-drag-lavender: #A9A3E8;
+  --scroll-drag-pink: #E85D6B;
+  --scroll-drag-orange: #EFA13B;
+}
+
+/* SECTION WRAPPER & PINNED CONTAINER */
+.scroll-drag-section {
+  position: relative;
+  width: 100%;
+  background: var(--scroll-drag-bg);
+  border-top: 1px solid #111111;
+  border-bottom: 1px solid #111111;
+  overflow: visible;
+}
+
+.scroll-drag-spacer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.scroll-drag-track-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--scroll-drag-bg);
+  z-index: 10;
+  will-change: transform;
+}
+
+.scroll-drag-track-wrapper.pin-pinned {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+.scroll-drag-track-wrapper.pin-after {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 0 !important;
+}
+
+/* HORIZONTAL DRAG TRACK & DISPLAY TEXT */
+.scroll-drag-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0 4vw;
+  will-change: transform;
+}
+
+.scroll-drag-text {
+  font-family: 'Space Grotesk', 'Arial Black', sans-serif;
+  font-size: clamp(48px, 9vw, 140px);
+  font-weight: 900;
+  color: var(--scroll-drag-ink);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+.scroll-drag-word {
+  display: inline-flex;
+  position: relative;
+}
+
+.scroll-drag-letter {
+  display: inline-block;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.scroll-drag-space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+/* DOODLE STICKERS LAYER (Static position anchored to words) */
+.scroll-drag-doodles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.scroll-drag-doodle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+.scroll-drag-doodle svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* MOBILE RESPONSIVE TUNING */
+@media (max-width: 768px) {
+  .scroll-drag-text {
+    font-size: clamp(36px, 11vw, 72px);
+  }
+
+  .scroll-drag-doodle {
+    transform: scale(0.75);
+  }
+}
