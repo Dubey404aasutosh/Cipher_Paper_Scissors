@@ -1,17 +1,17 @@
 /* 
- * CIPHER, PAPER, SCISSORS - App Controller
- * Lenis Smooth Scroll, GSAP Wonjyou Sticky Title Stretch, Journey Pinned Scroll & Live Sandbox
+ * CIPHER, PAPER, SCISSORS - Fast & Smooth Scroll Controller
+ * Lenis Ultra-Fast Smooth Scroll + Responsive Hero Title Stretch
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. LENIS INERTIA SMOOTH SCROLL CONFIGURATION (Wonjyou Blueprint)
+    // 1. FAST & RESPONSIVE LENIS SMOOTH SCROLL (Zero Scroll-Lock Lag)
     let lenis = null;
     if (typeof Lenis !== "undefined") {
         lenis = new Lenis({
-            duration: 1.5,
+            duration: 0.8,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            wheelMultiplier: 0.9,
+            wheelMultiplier: 1.2,
             touchMultiplier: 1.5,
         });
 
@@ -30,21 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         gsap.registerPlugin(ScrollTrigger);
 
-        // 2. WONJYOU STICKY SCROLLING TYPOGRAPHY STRETCH ANIMATION (Hero Title Stretch)
-        const heroRunway = document.getElementById("hero-runway") || document.querySelector(".hero-runway-track");
+        // 2. DYNAMIC HERO TITLE VERTICAL STRETCH ON SCROLL (Fast & Smooth)
+        const heroSection = document.querySelector(".hero-section") || document.getElementById("hero-section");
         const heroTitle = document.getElementById("sticky-hero-title") || document.querySelector(".hero-title");
-        const wordmarkBox = document.getElementById("wordmark-container") || document.querySelector(".wordmark-container");
 
-        if (heroRunway && heroTitle) {
-            // Formula for vertical stretch target scale
-            const calculateScaleY = () => {
-                const windowH = window.innerHeight;
-                const titleH = heroTitle.getBoundingClientRect().height || 120;
-                return Math.max(2.8, (windowH / titleH) * 1.65);
-            };
-
-            const targetScale = calculateScaleY();
-
+        if (heroSection && heroTitle) {
             gsap.fromTo(
                 heroTitle,
                 {
@@ -53,14 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     filter: "drop-shadow(0 4px 28px rgba(0,0,0,0.45))",
                 },
                 {
-                    scaleY: targetScale,
-                    filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.9))",
+                    scaleY: 2.8,
+                    filter: "drop-shadow(0 24px 50px rgba(0, 0, 0, 0.85))",
                     ease: "none",
                     scrollTrigger: {
-                        trigger: heroRunway,
+                        trigger: heroSection,
                         start: "top top",
-                        end: "bottom bottom",
-                        scrub: 1.0,
+                        end: "bottom top",
+                        scrub: 0.2, // Instant responsive feedback
                         invalidateOnRefresh: true,
                     },
                 }
@@ -148,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     trigger: "#journey",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: true,
+                    scrub: 0.3,
                     onUpdate: (self) => {
                         const progress = self.progress;
                         let currentStage = 0;
@@ -173,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             cells.forEach((cell, idx) => {
                                 if (targetStr && targetStr[idx] && cell.innerText !== targetStr[idx]) {
                                     cell.innerText = targetStr[idx];
-                                    gsap.fromTo(cell, { scale: 1.25, color: "#D7A669" }, { scale: 1, color: "#0F0F0F", duration: 0.35 });
+                                    gsap.fromTo(cell, { scale: 1.25, color: "#D7A669" }, { scale: 1, color: "#0F0F0F", duration: 0.3 });
                                 }
                             });
                         }
