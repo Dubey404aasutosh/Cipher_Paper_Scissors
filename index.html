@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=13">
 
     <!-- Libraries (GSAP + ScrollTrigger) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -30,18 +30,11 @@
         </div>
     </div>
 
-    <!-- Automatic Intro Preloader Overlay -->
+    <!-- Automatic Intro Preloader Overlay (Replaced text with 'Team GreekGod presents') -->
     <div class="overlay" id="overlay">
-        <div class="col">
+        <div class="preloader-presents-col">
             <h2>
-                <div>CIPHER, PAPER</div>
-                <div>SCISSORS</div>
-            </h2>
-        </div>
-        <div class="col text-right">
-            <h2>
-                <div>INITIALIZING...</div>
-                <div>CPS-26</div>
+                <div>Team GreekGod presents</div>
             </h2>
         </div>
     </div>
@@ -60,19 +53,13 @@
         <div class="img layer-10"><img src="assets/33.jpg" alt="Product Layer 10" /></div>
     </div>
 
-    <!-- Section 2: Hero Section (Full Viewport Spotlight Image + Overlaid Title + Team GreekGods) -->
+    <!-- Section 2: Hero Section -->
     <section class="hero">
         <div class="hero-page-frame">
-            <!-- Top Bar (Team GreekGods Name + Controls) -->
+            <!-- Top Bar (Clean Controls - Replay & Greek Gods presentation removed) -->
             <div class="hero-top-bar">
-                <div class="team-badge">
-                    ● TEAM GREEKGODS PRESENTATION
-                </div>
+                <div></div>
                 <div class="hero-top-actions">
-                    <button class="replay-btn" id="replay-btn" title="Replay Preloader">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                        REPLAY
-                    </button>
                     <button id="debug-toggle-btn" class="debug-toggle-btn">🍄 DEBUG MODE: OFF</button>
                 </div>
             </div>
@@ -215,7 +202,7 @@
     </section>
 
     <!-- Core App Logic & Spotlight Script -->
-    <script src="script.js?v=12"></script>
-    <script src="spotlight.js?v=12"></script>
+    <script src="script.js?v=13"></script>
+    <script src="spotlight.js?v=13"></script>
 </body>
 </html>
