@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resSwap) resSwap.innerText = res.stage2_swap;
             if (resFinal) resFinal.innerText = res.stage3_flip;
         } else {
-            const cText = rawText || "GOWOFLPR";
+            const cText = rawText || "CSITAWFQ";
             const dec = CPSCipher.decrypt(cText, mKey, sKey, xKey);
 
             if (resInputLabel) resInputLabel.innerText = "INPUT (CIPHERTEXT):";
@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (currentMode === "encrypt") {
                 if (inputText) inputText.value = "SERENOVA";
             } else {
-                if (inputText) inputText.value = "GOWOFLPR";
+                if (inputText) inputText.value = "CSITAWFQ";
             }
             runSandboxCipher();
         });
