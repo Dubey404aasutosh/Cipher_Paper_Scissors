@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 2. PLAINTEXT JOURNEY SCROLL ANIMATION & DETAILED STEP-BY-STEP CRYPTO MATH
-        const ALPHA = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        const ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const sampleWord = "GREEKGODS";
         const playfairKey = "ZEUS";
         const caesarShift = 3;
@@ -73,17 +73,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 s0Math.push({ from: ch, math: `Index ${idx}`, to: `${idx}` });
             }
 
-            // Stage 1: Shift (+cShift mod 25)
+            // Stage 1: Shift (+cShift mod 26)
             const s1Math = [];
             for (let i = 0; i < clean.length; i++) {
                 const origCh = clean[i];
                 const pIdx = ALPHA.indexOf(origCh);
                 const sCh = enc.stage1_shift[i];
                 const sIdx = ALPHA.indexOf(sCh);
-                s1Math.push({ from: `${origCh} (${pIdx})`, math: `+ ${cShift} mod 25`, to: `${sCh} (${sIdx})` });
+                s1Math.push({ from: `${origCh} (${pIdx})`, math: `+ ${cShift} mod 26`, to: `${sCh} (${sIdx})` });
             }
 
-            // Stage 2: Swap (Playfair 5x5 Digraphs)
+            // Stage 2: Swap (Playfair 2x13 Digraphs)
             const s2Math = [];
             const digraphs = enc.stage2_digraphs || [];
             let resIdx = 0;
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 s2Math.push({ from: `Pair ${pIdx + 1}: ${pairStr}`, math: "Matrix Swap", to: swappedStr });
             });
 
-            // Stage 3: Flip (XOR +K mod 25)
+            // Stage 3: Flip (+K mod 26)
             const s3Math = [];
             const kIdx = ALPHA.indexOf(xKey);
             for (let i = 0; i < enc.stage2_swap.length; i++) {
@@ -102,21 +102,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 const s2i = ALPHA.indexOf(s2Ch);
                 const s3Ch = enc.stage3_flip[i];
                 const s3i = ALPHA.indexOf(s3Ch);
-                s3Math.push({ from: `${s2Ch} (${s2i})`, math: `+ ${xKey} (${kIdx}) mod 25`, to: `${s3Ch} (${s3i})` });
+                s3Math.push({ from: `${s2Ch} (${s2i})`, math: `+ ${xKey} (${kIdx}) mod 26`, to: `${s3Ch} (${s3i})` });
             }
 
             const stageFormulas = [
                 `FORMULA: P = [${clean.split("").join(", ")}]`,
-                `FORMULA: C₁ = (P + ${cShift}) mod 25`,
-                `FORMULA: 5×5 Matrix Swap [Key: ${pKey}]`,
-                `FORMULA: C₃ = (C₂ ⊕ ${xKey}) mod 25`
+                `FORMULA: C₁ = (P + ${cShift}) mod 26`,
+                `FORMULA: 2×13 Matrix Swap [Key: ${pKey}]`,
+                `FORMULA: C₃ = (C₂ + ${xKey}) mod 26`
             ];
 
             const stageDescs = [
-                `Raw input '${clean}' converted to letter indices [0-24] in the 25-letter Playfair alphabet (A-I, K-Z).`,
-                `Each letter index rotated forward by Caesar key k₁ = ${cShift} (mod 25) to pre-whiten frequency distribution.`,
-                `Text split into digraphs & substituted using 5×5 Playfair matrix [Key: ${pKey}] for polygraphic defense.`,
-                `Applies modular key addition (+${xKey}, index ${kIdx}) mod 25 yielding final ciphertext '${enc.stage3_flip}'.`
+                `Raw input '${clean}' converted to 26-letter index vectors [0-25] preserving all English letters natively.`,
+                `Each letter index rotated forward by Caesar key k₁ = ${cShift} (mod 26) to pre-whiten frequency distribution.`,
+                `Text split into digraphs & substituted using 2×13 Playfair matrix [Key: ${pKey}] for polygraphic defense.`,
+                `Applies modular key addition (+${xKey}, index ${kIdx}) mod 26 yielding final ciphertext '${enc.stage3_flip}'.`
             ];
 
             return {

@@ -1,48 +1,47 @@
 /**
- * CIPHER, PAPER, SCISSORS (CPS-25) — Cryptographic Engine
+ * CIPHER, PAPER, SCISSORS (CPS-26) — Cryptographic Engine
  * Team: GreekGods (Aasutosh, Harshit, Kapil)
  *
- * All three stages operate on the SAME 25-letter Playfair alphabet
- * (A-I, K-Z — no J, which merges with I).  This guarantees every
- * stage is a true bijection and decrypt(encrypt(x)) === x  ALWAYS.
+ * Full 26-letter Alphabet Engine (A-Z, including J).
+ * All 3 stages operate over Z_26, ensuring decrypt(encrypt(x)) === x EXACTLY
+ * for ALL 26 English letters without replacing J with I.
  *
- *  1. SHIFT  (Caesar):    index′ = (index ± shift) mod 25
- *  2. SWAP   (Playfair):  length-preserving 5×5 matrix substitution
- *  3. FLIP   (Vigenère):  index′ = (index ± keyIndex) mod 25
+ *  1. SHIFT  (Caesar):    index′ = (index ± shift) mod 26
+ *  2. SWAP   (Playfair):  2×13 matrix substitution (all 26 letters preserved)
+ *  3. FLIP   (Vigenère):  index′ = (index ± keyIndex) mod 26
  */
 
 const CPSCipher = (function () {
 
-    // 25-letter alphabet (standard Playfair — J merges with I)
-    const ALPHA = "ABCDEFGHIKLMNOPQRSTUVWXYZ";   // length 25
+    // Full 26-letter English alphabet (supports J natively!)
+    const ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // length 26
 
     /**
-     * Sanitise: uppercase, J→I, strip non-letters.
+     * Clean input text: uppercase, strip non-alphabet characters (preserves J).
      */
     function cleanText(text) {
         if (!text) return "";
-        return text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
+        return text.toUpperCase().replace(/[^A-Z]/g, "");
     }
 
     // ═══════════════════════════════════════════════════════════════════
-    //  Stage 1 — SHIFT  (Caesar on 25-letter alphabet)
+    //  Stage 1 — SHIFT (Caesar Cipher on 26-letter alphabet)
     // ═══════════════════════════════════════════════════════════════════
     function caesarTransform(text, shiftAmount, decrypt = false) {
         const cleaned = cleanText(text);
-        const s = ((parseInt(shiftAmount, 10) || 0) % 25 + 25) % 25;
-        const eff = decrypt ? (25 - s) % 25 : s;
+        const s = ((parseInt(shiftAmount, 10) || 0) % 26 + 26) % 26;
+        const eff = decrypt ? (26 - s) % 26 : s;
         let out = "";
         for (const ch of cleaned) {
             const i = ALPHA.indexOf(ch);
-            out += i === -1 ? ch : ALPHA[(i + eff) % 25];
+            out += i === -1 ? ch : ALPHA[(i + eff) % 26];
         }
         return out;
     }
 
     // ═══════════════════════════════════════════════════════════════════
-    //  Stage 2 — SWAP  (Playfair 5×5)
+    //  Stage 2 — SWAP (2×13 Playfair Matrix Cipher for all 26 letters)
     // ═══════════════════════════════════════════════════════════════════
-
     function generatePlayfairMatrix(key) {
         const k = cleanText(key) || "ZEUS";
         const used = new Set();
@@ -50,28 +49,29 @@ const CPSCipher = (function () {
         for (const ch of k)     if (!used.has(ch)) { used.add(ch); flat.push(ch); }
         for (const ch of ALPHA) if (!used.has(ch)) { used.add(ch); flat.push(ch); }
         const grid = [];
-        for (let r = 0; r < 5; r++) grid.push(flat.slice(r * 5, (r + 1) * 5));
+        for (let r = 0; r < 2; r++) grid.push(flat.slice(r * 13, (r + 1) * 13));
         return { flat, grid };
     }
 
     function findPos(flat, ch) {
         const i = flat.indexOf(ch);
-        return i === -1 ? { r: 0, c: 0 } : { r: Math.floor(i / 5), c: i % 5 };
+        return i === -1 ? { r: 0, c: 0 } : { r: Math.floor(i / 13), c: i % 13 };
     }
 
     /**
-     * Length-preserving Playfair:
-     *  • Pairs consecutive characters — NO filler insertion for duplicates.
-     *  • Odd trailing character gets a diagonal matrix shift.
-     *  • Duplicate pairs naturally use the "same-row" rule → fully invertible.
+     * Length-preserving 2×13 Playfair Transformation:
+     *  • Processes pairs of letters in a 2-row × 13-column matrix.
+     *  • Same Row: shift column (+1 for Encrypt, +12 for Decrypt mod 13).
+     *  • Same Col: swap row ((r + 1) mod 2).
+     *  • Rectangle: swap columns.
+     *  • Single trailing char: shift column and swap row.
      */
     function playfairTransform(text, key, decrypt = false) {
         const cleaned = cleanText(text);
         const mat  = generatePlayfairMatrix(key);
         const flat = mat.flat, grid = mat.grid;
-        const step = decrypt ? 4 : 1;
+        const stepCol = decrypt ? 12 : 1;
 
-        // Build pairs — no fillers, no padding
         const pairs = [];
         let idx = 0;
         while (idx < cleaned.length) {
@@ -92,18 +92,18 @@ const CPSCipher = (function () {
                 let r1 = a.r, c1 = a.c, r2 = b.r, c2 = b.c;
 
                 if (r1 === r2) {
-                    c1 = (c1 + step) % 5;
-                    c2 = (c2 + step) % 5;
+                    c1 = (c1 + stepCol) % 13;
+                    c2 = (c2 + stepCol) % 13;
                 } else if (c1 === c2) {
-                    r1 = (r1 + step) % 5;
-                    r2 = (r2 + step) % 5;
+                    r1 = (r1 + 1) % 2;
+                    r2 = (r2 + 1) % 2;
                 } else {
                     const tmp = c1; c1 = c2; c2 = tmp;
                 }
                 result += grid[r1][c1] + grid[r2][c2];
             } else {
                 const a = findPos(flat, pair[0]);
-                result += grid[(a.r + step) % 5][(a.c + step) % 5];
+                result += grid[(a.r + 1) % 2][(a.c + stepCol) % 13];
             }
         }
 
@@ -111,16 +111,15 @@ const CPSCipher = (function () {
     }
 
     // ═══════════════════════════════════════════════════════════════════
-    //  Stage 3 — FLIP  (Vigenère-style modular addition on 25 letters)
+    //  Stage 3 — FLIP (Vigenère Modular Addition/Subtraction on Z_26)
     //
-    //  Encrypt:  C = (P + K) mod 25
-    //  Decrypt:  P = (C − K + 25) mod 25
+    //  Encrypt: C = (P + K) mod 26
+    //  Decrypt: P = (C - K + 26) mod 26
     // ═══════════════════════════════════════════════════════════════════
-
     function letterXORSingle(pIdx, kIdx, decrypt = false) {
         return decrypt
-            ? (pIdx - kIdx + 25) % 25
-            : (pIdx + kIdx) % 25;
+            ? (pIdx - kIdx + 26) % 26
+            : (pIdx + kIdx) % 26;
     }
 
     function xorTransform(text, xorKey, decrypt = false) {
@@ -138,9 +137,8 @@ const CPSCipher = (function () {
     }
 
     // ═══════════════════════════════════════════════════════════════════
-    //  Full Pipelines
+    //  Full Encryption and Decryption Pipelines
     // ═══════════════════════════════════════════════════════════════════
-
     function encrypt(plaintext, playfairKey = "ZEUS", caesarShift = 3, xorKey = "K") {
         const clean = cleanText(plaintext);
         const s1    = caesarTransform(clean, caesarShift, false);
@@ -171,8 +169,13 @@ const CPSCipher = (function () {
     }
 
     return {
-        cleanText, caesarTransform, generatePlayfairMatrix,
-        playfairTransform, letterXORSingle, xorTransform,
-        encrypt, decrypt
+        cleanText,
+        caesarTransform,
+        generatePlayfairMatrix,
+        playfairTransform,
+        letterXORSingle,
+        xorTransform,
+        encrypt,
+        decrypt
     };
 })();
