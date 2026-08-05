@@ -47,12 +47,6 @@
     let currentOpacity = 0;
     let targetOpacity = 0;
 
-    // Parallax Normalized Mouse Targets (-1 to +1)
-    let pTargetX = 0;
-    let pTargetY = 0;
-    let pCurrentX = 0;
-    let pCurrentY = 0;
-
     const targetElement = heroSection || spotlightBox;
 
     targetElement.addEventListener("mouseenter", () => {
@@ -65,19 +59,10 @@
       targetX = e.clientX - rect.left;
       targetY = e.clientY - rect.top;
       targetOpacity = 1;
-
-      // Parallax Normalized Targets (-1 to 1)
-      const secRect = targetElement.getBoundingClientRect();
-      const centerX = secRect.left + secRect.width / 2;
-      const centerY = secRect.top + secRect.height / 2;
-      pTargetX = (e.clientX - centerX) / (secRect.width / 2);
-      pTargetY = (e.clientY - centerY) / (secRect.height / 2);
     }, { passive: true });
 
     targetElement.addEventListener("mouseleave", () => {
       targetOpacity = 0;
-      pTargetX = 0;
-      pTargetY = 0;
     }, { passive: true });
 
     // Pre-calculate mask string template to avoid string allocation lag
@@ -89,35 +74,6 @@
       currentX += (targetX - currentX) * lerpFactor;
       currentY += (targetY - currentY) * lerpFactor;
       currentOpacity += (targetOpacity - currentOpacity) * 0.2;
-
-      // Parallax Linear Interpolation (Silkier lerp dampening)
-      pCurrentX += (pTargetX - pCurrentX) * 0.045;
-      pCurrentY += (pTargetY - pCurrentY) * 0.045;
-
-      // Apply Refined 3D Micro-Parallax Layers
-      if (heroFrame) {
-        const rotX = -pCurrentY * 1.8;
-        const rotY = pCurrentX * 2.2;
-        heroFrame.style.transform = `perspective(1400px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-      }
-
-      if (container) {
-        const imgX = -pCurrentX * 8;
-        const imgY = -pCurrentY * 6;
-        container.style.transform = `translate3d(${imgX.toFixed(2)}px, ${imgY.toFixed(2)}px, 0) scale(1.015)`;
-      }
-
-      if (wordmarkContainer) {
-        const titleX = pCurrentX * 10;
-        const titleY = pCurrentY * 6;
-        wordmarkContainer.style.transform = `translate3d(${titleX.toFixed(2)}px, ${titleY.toFixed(2)}px, 0)`;
-      }
-
-      if (topControls) {
-        const ctrlX = pCurrentX * 5;
-        const ctrlY = pCurrentY * 3;
-        topControls.style.transform = `translate3d(${ctrlX.toFixed(2)}px, ${ctrlY.toFixed(2)}px, 0)`;
-      }
 
       // Render Spotlight Mask
       if (currentOpacity > 0.001) {

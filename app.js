@@ -8,10 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         gsap.registerPlugin(ScrollTrigger);
 
-        // 1. DISTINCT HERO SECTION SCROLL ANIMATION (Hero Image Parallax + Upward Title Stretch)
+        // 1. DISTINCT HERO SECTION SCROLL ANIMATION (Upward Title Stretch)
         const heroSection = document.querySelector(".hero-section") || document.getElementById("hero-section");
         const heroTitle = document.getElementById("sticky-hero-title") || document.querySelector(".hero-title");
-        const spotlightBox = document.getElementById("hero-spotlight-box") || document.querySelector(".hero-spotlight-box");
 
         if (heroSection && heroTitle) {
             gsap.fromTo(
@@ -36,24 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                 }
             );
-
-            if (spotlightBox) {
-                gsap.fromTo(
-                    spotlightBox,
-                    { scale: 1, y: 0 },
-                    {
-                        scale: 1.05,
-                        y: 40,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: heroSection,
-                            start: "top top",
-                            end: "bottom top",
-                            scrub: 0.3,
-                        },
-                    }
-                );
-            }
         }
 
         // 2. PLAINTEXT JOURNEY SCROLL ANIMATION & DETAILED STEP-BY-STEP CRYPTO MATH
@@ -802,5 +783,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             }
         });
+    });
+
+    // 6. TOP FRONTEND CRAFTED CARDS ANIMATION (3D Micro-Tilt + Radial Mouse Spotlight)
+    const moveCards = document.querySelectorAll(".move-card");
+    moveCards.forEach(card => {
+        let rect = card.getBoundingClientRect();
+        const updateRect = () => {
+            rect = card.getBoundingClientRect();
+        };
+        window.addEventListener("resize", updateRect, { passive: true });
+        window.addEventListener("scroll", updateRect, { passive: true });
+
+        card.addEventListener("mousemove", (e) => {
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty("--mouse-x", `${x}px`);
+            card.style.setProperty("--mouse-y", `${y}px`);
+
+            const normX = (x / rect.width - 0.5) * 2;
+            const normY = (y / rect.height - 0.5) * 2;
+
+            const rotX = -normY * 5;
+            const rotY = normX * 7;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(10px)`;
+        }, { passive: true });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+        }, { passive: true });
     });
 });

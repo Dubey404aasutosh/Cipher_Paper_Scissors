@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Germania+One&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
     <link rel="stylesheet" href="style.css?v=50">
@@ -83,11 +83,32 @@
         <div id="scroll-drag-doodle-container"></div>
     </section>
 
+    <!-- SVG Gooey Filter Component -->
+    <svg class="gooey-filter-svg" style="position: absolute; width: 0; height: 0; pointer-events: none; opacity: 0;" aria-hidden="true">
+        <defs>
+            <filter id="goo-filter">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+                <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+
     <!-- Section 3B: The Three Moves Cards Grid -->
     <section class="three-moves container">
         <div class="moves-grid">
             <div class="move-card shift" data-tooltip="CAESAR CIPHER: Shifts each character forward in the 25-letter Playfair alphabet by key k₁ (mod 25). Formula: C₁ = (P + k₁) mod 25. Reversible via (C₁ - k₁ + 25) mod 25.">
-                <div class="move-icon">01</div>
+                <div class="card-spotlight"></div>
+                <div class="card-top-row">
+                    <div class="move-icon-wrapper">
+                        <div class="gooey-blob-container">
+                            <span class="gooey-blob gooey-blob-1"></span>
+                            <span class="gooey-blob gooey-blob-2"></span>
+                        </div>
+                        <div class="move-icon">01</div>
+                    </div>
+                    <span class="move-visual-badge">STAGE 1 • SHIFT</span>
+                </div>
                 <h3 class="move-name">Shift (Caesar)</h3>
                 <span class="move-algo">C₁ = (P + k₁) mod 26</span>
                 <p class="move-text">
@@ -96,7 +117,17 @@
             </div>
 
             <div class="move-card swap" data-tooltip="PLAYFAIR CIPHER: Splits pre-whiten text into digraph pairs and substitutes them using a dynamic 5x5 key matrix (ZEUS). Eliminates single-letter frequency patterns.">
-                <div class="move-icon">02</div>
+                <div class="card-spotlight"></div>
+                <div class="card-top-row">
+                    <div class="move-icon-wrapper">
+                        <div class="gooey-blob-container">
+                            <span class="gooey-blob gooey-blob-1"></span>
+                            <span class="gooey-blob gooey-blob-2"></span>
+                        </div>
+                        <div class="move-icon">02</div>
+                    </div>
+                    <span class="move-visual-badge">STAGE 2 • SWAP</span>
+                </div>
                 <h3 class="move-name">Swap (Playfair)</h3>
                 <span class="move-algo">5x5 Grid Substitution</span>
                 <p class="move-text">
@@ -105,7 +136,17 @@
             </div>
 
             <div class="move-card flip" data-tooltip="LETTER XOR (FLIP): Performs modular addition between intermediate Playfair indices and secret key letter index (K). Formula: C₃ = (C₂ + K_idx) mod 25.">
-                <div class="move-icon">03</div>
+                <div class="card-spotlight"></div>
+                <div class="card-top-row">
+                    <div class="move-icon-wrapper">
+                        <div class="gooey-blob-container">
+                            <span class="gooey-blob gooey-blob-1"></span>
+                            <span class="gooey-blob gooey-blob-2"></span>
+                        </div>
+                        <div class="move-icon">03</div>
+                    </div>
+                    <span class="move-visual-badge">STAGE 3 • FLIP</span>
+                </div>
                 <h3 class="move-name">Flip (Letter XOR)</h3>
                 <span class="move-algo">Bitwise XOR in [A-Z]</span>
                 <p class="move-text">
@@ -268,7 +309,11 @@
                         </div>
                     </div>
                 </div>
-         <!-- Full Algorithm Explanation Modal Popup -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Algorithm Explanation Modal Popup -->
     <div id="algo-modal" class="modal-overlay">
         <div class="modal-card">
             <button id="modal-close-btn" class="modal-close">&times;</button>
@@ -283,6 +328,7 @@
         </div>
     </div>
 
+    <!-- Core App Logic & Scripts -->
     <script src="pipo-gradient.js?v=1"></script>
     <script src="cipher.js?v=90"></script>
     <script src="script.js?v=90"></script>
