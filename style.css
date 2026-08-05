@@ -952,6 +952,8 @@ body {
 .row-label {
     font-family: var(--font-mono);
     font-size: 0.85rem;
+    color: #111111;
+    font-weight: 600;
 }
 
 .sandbox-two-panels {
@@ -1005,8 +1007,8 @@ body {
 }
 
 .sandbox-card.encrypt-card .result-row {
-    background: rgba(255, 255, 255, 0.85) !important;
-    border: 1.5px solid rgba(17, 17, 17, 0.2) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1.5px solid rgba(17, 17, 17, 0.45) !important;
     backdrop-filter: blur(8px) !important;
 }
 
@@ -1039,8 +1041,8 @@ body {
 }
 
 .sandbox-card.decrypt-card .result-row {
-    background: rgba(228, 236, 239, 0.9) !important;
-    border: 1.5px solid rgba(17, 17, 17, 0.2) !important;
+    background: rgba(228, 236, 239, 0.95) !important;
+    border: 1.5px solid rgba(17, 17, 17, 0.45) !important;
     backdrop-filter: blur(8px) !important;
 }
 
@@ -1098,7 +1100,7 @@ body {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     font-weight: 600;
-    color: #555555;
+    color: #111111;
 }
 
 .row-value {
