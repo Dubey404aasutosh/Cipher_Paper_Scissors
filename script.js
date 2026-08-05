@@ -1,25 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.querySelector(".overlay");
-  const debugToggleBtn = document.getElementById("debug-toggle-btn");
-  const debugStats = document.getElementById("debug-stats");
-  const hudOverlayClip = document.getElementById("hud-overlay-clip");
-  const hudStatus = document.getElementById("hud-status");
   const replayBtn = document.getElementById("replay-btn");
 
-  let isDebugActive = false;
   let isAnimating = false;
 
-  function toggleDebug() {
-    isDebugActive = !isDebugActive;
-    document.body.classList.toggle("debug-mode", isDebugActive);
-    if (debugToggleBtn) {
-      debugToggleBtn.classList.toggle("active", isDebugActive);
-      debugToggleBtn.innerText = isDebugActive ? "DEBUG MODE: ON" : "DEBUG MODE: OFF";
-    }
-    if (debugStats) {
-      debugStats.style.display = isDebugActive ? "flex" : "none";
-    }
-  }
+
 
   // Smooth Extended Shutter Preloader Sequence (Reduced Shutter Velocity)
   function runBalancedShutterPreloader() {
@@ -43,14 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
       clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)"
     });
 
-    if (hudStatus) hudStatus.innerText = "Firing Shutter Stack (10 Layers)...";
-    if (hudOverlayClip) hudOverlayClip.innerText = "polygon(0 100%, 100% 100%, 100% 0, 0 0)";
+
 
     const tl = gsap.timeline({
       onComplete: () => {
         isAnimating = false;
-        if (hudStatus) hudStatus.innerText = "Shutter Complete / Page Unlocked";
-        if (hudOverlayClip) hudOverlayClip.innerText = "polygon(0 0, 100% 0, 100% 0, 0 0)";
+
         gsap.set([".overlay", ".loader"], { display: "none" });
       }
     });
@@ -105,28 +88,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Keyboard shortcut listener ('D' for Debug, 'R' for Replay)
-  // Fix: Check if user is typing in an input or textarea element
+  // Keyboard shortcut listener ('R' for Replay)
   window.addEventListener("keydown", (e) => {
     const targetTag = e.target ? e.target.tagName : "";
     if (targetTag === "INPUT" || targetTag === "TEXTAREA" || (e.target && e.target.isContentEditable)) {
-      return; // Do not trigger shortcuts while user is typing in form fields!
+      return;
     }
 
-    if (e.key === "d" || e.key === "D") {
-      toggleDebug();
-    }
     if (e.key === "r" || e.key === "R") {
       runBalancedShutterPreloader();
     }
   });
 
-  if (debugToggleBtn) {
-    debugToggleBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleDebug();
-    });
-  }
 
   // Automatically trigger preloader
   runBalancedShutterPreloader();
