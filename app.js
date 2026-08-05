@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (encResSwap) encResSwap.innerText = "-";
             if (encResFinal) encResFinal.innerText = "-";
 
-            if (rowInput) rowInput.setAttribute("data-tooltip", "1. SANITIZATION:\n• Replaces J → I\n• Strips non-letters\n• Maps to 25-letter alphabet [0-24]");
+            if (rowInput) rowInput.setAttribute("data-tooltip", "1. SANITIZATION:\n• Converts to uppercase\n• Strips non-letters\n• Maps to full 26-letter alphabet [0-25] (preserves J natively)");
             if (rowShift) rowShift.setAttribute("data-tooltip", `2. CAESAR SHIFT (+${sKey}):\n• Formula: C₁ = (P + ${sKey}) mod 25\n• Rotates each letter index forward by ${sKey}.`);
             if (rowSwap) rowSwap.setAttribute("data-tooltip", `3. PLAYFAIR 5x5 [Key: ${mKey}]:\n• Pairs into digraphs\n• Substitutes via 5x5 matrix to eliminate single-letter frequency.`);
             if (rowFinal) rowFinal.setAttribute("data-tooltip", `4. LETTER XOR [Key: ${xKey}]:\n• Formula: C₃ = (C₂ + index('${xKey}')) mod 25\n• Final polyalphabetic encryption.`);
@@ -789,12 +789,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Input Preparation & Pre-Whiteness",
                     "Sanitizes input text before feeding into the 3 cryptographic stages.",
                     `
-                    <div class="modal-section-title">Sanitization Pipeline</div>
-                    <div class="modal-code-box">cleanText(text) = text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "")</div>
+                    <div class="modal-section-title">Sanitization Function</div>
+                    <div class="modal-code-box">cleanText(text) = text.toUpperCase().replace(/[^A-Z]/g, "")</div>
                     <div class="modal-text">
-                        1. <strong>Uppercase Normalization:</strong> All letters are forced to UPPERCASE.<br>
-                        2. <strong>J → I Substitution:</strong> Letter 'J' is mapped to 'I' to fit inside the 5x5 Playfair grid.<br>
-                        3. <strong>Clean Vector:</strong> Input '${rawText}' becomes <strong>'${res.plaintext}'</strong>.
+                        Converts input to uppercase letter vectors [0-25] preserving all 26 English letters natively (including J).<br>
+                        <strong>Clean Vector:</strong> Input '${rawText}' becomes <strong>'${res.plaintext}'</strong>.
                     </div>
                     `
                 );
