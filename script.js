@@ -106,7 +106,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Keyboard shortcut listener ('D' for Debug, 'R' for Replay)
+  // Fix: Check if user is typing in an input or textarea element
   window.addEventListener("keydown", (e) => {
+    const targetTag = e.target ? e.target.tagName : "";
+    if (targetTag === "INPUT" || targetTag === "TEXTAREA" || (e.target && e.target.isContentEditable)) {
+      return; // Do not trigger shortcuts while user is typing in form fields!
+    }
+
     if (e.key === "d" || e.key === "D") {
       toggleDebug();
     }
