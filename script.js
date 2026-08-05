@@ -55,46 +55,46 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Step 1: Text slide-in (1.2s)
+    // Step 1: Fast text slide-in (0.7s)
     tl.to("h2 div", {
-      duration: 1.2,
+      duration: 0.7,
       yPercent: 0,
       ease: "power4.out",
-      stagger: { amount: 0.4 }
+      stagger: { amount: 0.25 }
     }, 0);
 
-    // Step 2: Text slide-out (1.0s)
+    // Step 2: Fast text slide-out (0.5s)
     tl.to("h2 div", {
-      duration: 1.0,
+      duration: 0.5,
       yPercent: -100,
       ease: "power3.inOut",
-      stagger: { amount: 0.35 }
-    }, 1.4);
+      stagger: { amount: 0.2 }
+    }, 0.8);
 
-    // Step 3: Overlay polygon collapse (1.2s)
+    // Step 3: Overlay polygon collapse (0.6s)
     tl.to(".overlay", {
-      duration: 1.2,
+      duration: 0.6,
       clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
       ease: "power4.inOut"
-    }, 1.9);
+    }, 1.1);
 
-    // Step 4: 10-layer shutter stagger reveal (Reduced velocity: 1.6s per layer, 2.0s total stagger)
+    // Step 4: 10-layer shutter stagger reveal (Faster 0.7s per layer, 0.8s total stagger)
     tl.to(".loader .img", {
-      duration: 1.6,
+      duration: 0.7,
       clipPath: "polygon(0 100%, 100% 100%, 100% 0%, 0% 0%)",
       ease: "power4.inOut",
       stagger: {
-        amount: 2.0,
+        amount: 0.8,
         ease: "power2.inOut"
       }
-    }, 2.2);
+    }, 1.3);
 
-    // Step 5: Collapse loader container to unlock landing page (1.2s)
+    // Step 5: Collapse loader container to unlock landing page (0.6s)
     tl.to(".loader", {
-      duration: 1.2,
+      duration: 0.6,
       clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
       ease: "power4.inOut"
-    }, 4.0);
+    }, 2.2);
   }
 
   // Replay Button listener

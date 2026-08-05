@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (encResInput) encResInput.innerText = res.plaintext;
         if (encResShift) encResShift.innerText = res.stage1_shift;
         if (encResSwap) encResSwap.innerText = res.stage2_swap;
-        if (encResFinal) encResFinal.innerText = res.stage3_flip;
+        if (encResFinal) encResFinal.innerText = res.finalCiphertext || res.stage3_flip;
 
         // Build detailed math breakdowns
         const ALPHA = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
