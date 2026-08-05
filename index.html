@@ -8,10 +8,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- CSS System -->
-    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="style.css?v=26">
+
+    <!-- Lenis Smooth Scroll CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <!-- Libraries (GSAP + ScrollTrigger) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -22,19 +25,21 @@
     <!-- Interactive Debug Control HUD -->
     <div id="debug-hud" class="debug-hud">
         <div id="debug-stats" class="debug-stats" style="display: none;">
-            <div><span class="hud-label">ANIMATION:</span> Balanced 10-Layer Shutter Preloader</div>
-            <div><span class="hud-label">SPEED:</span> Smooth Cinematic (~2.8s total)</div>
+            <div><span class="hud-label">ANIMATION:</span> Wonjyou Sticky Scroll Title Stretch + 10-Layer Preloader</div>
+            <div><span class="hud-label">RUNWAY:</span> 300vh Scroll Track</div>
             <div><span class="hud-label">OVERLAY CLIP:</span> <span id="hud-overlay-clip">polygon(0 100%, 100% 100%, 100% 0, 0 0)</span></div>
             <div><span class="hud-label">STATUS:</span> <span id="hud-status">Initializing...</span></div>
             <div class="hud-hint">Press 'D' key or click button to toggle</div>
         </div>
     </div>
 
-    <!-- Automatic Intro Preloader Overlay (Replaced text with 'Team GreekGod presents') -->
+    <!-- Automatic Intro Preloader Overlay (3 Large Stacked Layers Covering Screen) -->
     <div class="overlay" id="overlay">
         <div class="preloader-presents-col">
             <h2>
-                <div>Team GreekGod presents</div>
+                <div>TEAM</div>
+                <div>GREEKGOD</div>
+                <div>PRESENTS</div>
             </h2>
         </div>
     </div>
@@ -53,24 +58,23 @@
         <div class="img layer-10"><img src="assets/33.jpg" alt="Product Layer 10" /></div>
     </div>
 
-    <!-- Section 2: Hero Section -->
-    <section class="hero">
-        <div class="hero-page-frame">
-            <!-- Top Bar (Clean Controls - Replay & Greek Gods presentation removed) -->
-            <div class="hero-top-bar">
-                <div></div>
-                <div class="hero-top-actions">
+    <!-- Section 2: Wonjyou Sticky Scroll Runway Track (300vh Scroll Runway) -->
+    <section class="hero-runway-track" id="hero-runway">
+        <div class="sticky-viewport-frame">
+            <div class="hero-page-frame">
+                <!-- Floating Top Controls Overlay -->
+                <div class="hero-top-controls">
                     <button id="debug-toggle-btn" class="debug-toggle-btn">🍄 DEBUG MODE: OFF</button>
                 </div>
-            </div>
 
-            <!-- Full Viewport Spotlight Hero Image Container -->
-            <div class="hero-spotlight-box" id="hero-spotlight-box">
-                <!-- spotlight.js dynamically renders base H.png & reveal H.H.png -->
+                <!-- Viewport Spotlight Hero Image Container -->
+                <div class="hero-spotlight-box" id="hero-spotlight-box">
+                    <!-- spotlight.js dynamically renders base H.png & reveal H.H.png -->
 
-                <!-- Overlaid Wordmark Title on top of the Full Screen Image -->
-                <div class="wordmark-container">
-                    <h1 class="hero-title">Cipher, Paper, Scissors</h1>
+                    <!-- Overlaid Title Anchored at Bottom, Stretching Vertically Upwards on Scroll -->
+                    <div class="wordmark-container" id="wordmark-container">
+                        <h1 class="hero-title" id="sticky-hero-title">Cipher, Paper, Scissors</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -201,8 +205,10 @@
         </div>
     </section>
 
-    <!-- Core App Logic & Spotlight Script -->
-    <script src="script.js?v=13"></script>
-    <script src="spotlight.js?v=13"></script>
+    <!-- Core App Logic & Scripts -->
+    <script src="cipher.js?v=26"></script>
+    <script src="script.js?v=26"></script>
+    <script src="spotlight.js?v=26"></script>
+    <script src="app.js?v=26"></script>
 </body>
 </html>
