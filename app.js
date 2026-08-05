@@ -1,6 +1,6 @@
 /* 
- * CIPHER, PAPER, SCISSORS - Fast Native Scroll Controller
- * Distinct Hero Section Parallax & Title Stretch + Fast Journey Progress
+ * CIPHER, PAPER, SCISSORS - Step-by-Step Cryptographic Flow Controller
+ * Detailed Character-by-Character Transformation Math Breakdown (Shift -> Swap -> Flip)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const spotlightBox = document.getElementById("hero-spotlight-box") || document.querySelector(".hero-spotlight-box");
 
         if (heroSection && heroTitle) {
-            // Hero Title Upward Stretch Effect
             gsap.fromTo(
                 heroTitle,
                 {
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             );
 
-            // Subtle Hero Image Parallax Scale
             if (spotlightBox) {
                 gsap.fromTo(
                     spotlightBox,
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 2. PLAINTEXT JOURNEY SCROLL ANIMATION (SECTION 4 - Fast 120vh Track)
+        // 2. PLAINTEXT JOURNEY SCROLL ANIMATION & DETAILED STEP-BY-STEP CRYPTO MATH
         const sampleWord = "SERENOVA";
         const playfairKey = "ZEUS";
         const caesarShift = 3;
@@ -93,11 +91,69 @@ document.addEventListener("DOMContentLoaded", () => {
             "STAGE 3: FLIP (LETTER XOR)"
         ];
 
+        const stageFormulas = [
+            "FORMULA: P = [S, E, R, E, N, O, V, A]",
+            "FORMULA: C₁ = (P + 3) mod 26",
+            "FORMULA: Digraph Matrix Swap [Key: ZEUS]",
+            "FORMULA: C₃ = (C₂ ⊕ K) mod 26 [Key: K]"
+        ];
+
+        const stageStepTags = [
+            "INPUT STAGE",
+            "MOVE 1 OF 3",
+            "MOVE 2 OF 3",
+            "MOVE 3 OF 3 (FINAL)"
+        ];
+
         const stageDescs = [
-            "Sample Word: SERENOVA (Scroll down to watch transformation)",
-            "Shifted text forward by 3 alphabet positions: S->V, E->H, R->U...",
-            "Substituted digraphs using 5x5 Playfair grid matrix.",
-            "Final Letter-Domain XOR applied against key 'K'."
+            "Raw input string 'SERENOVA' converted to upper-case letter vectors [0-25] before encryption.",
+            "Each letter index is rotated forward by key k₁ = 3 (mod 26). Pre-whitens letter frequency structure.",
+            "Text is split into digraph pairs (VH, UH, QR, YD) & swapped using a 5x5 Playfair grid matrix [Key: ZEUS] to defeat single-character frequency analysis.",
+            "Applies 5-bit XOR between letter indices and key stream 'K' (index 10), mapped losslessly back into [A-Z] domain to generate final ciphertext GOWOFLPR."
+        ];
+
+        // Detailed math breakdown cards for each stage
+        const stageMathData = [
+            // Stage 0
+            [
+                { from: "S", math: "Index 18", to: "18" },
+                { from: "E", math: "Index 4", to: "4" },
+                { from: "R", math: "Index 17", to: "17" },
+                { from: "E", math: "Index 4", to: "4" },
+                { from: "N", math: "Index 13", to: "13" },
+                { from: "O", math: "Index 14", to: "14" },
+                { from: "V", math: "Index 21", to: "21" },
+                { from: "A", math: "Index 0", to: "0" }
+            ],
+            // Stage 1: Shift (+3)
+            [
+                { from: "S (18)", math: "+ 3 mod 26", to: "V (21)" },
+                { from: "E (4)", math: "+ 3 mod 26", to: "H (7)" },
+                { from: "R (17)", math: "+ 3 mod 26", to: "U (20)" },
+                { from: "E (4)", math: "+ 3 mod 26", to: "H (7)" },
+                { from: "N (13)", math: "+ 3 mod 26", to: "Q (16)" },
+                { from: "O (14)", math: "+ 3 mod 26", to: "R (17)" },
+                { from: "V (21)", math: "+ 3 mod 26", to: "Y (24)" },
+                { from: "A (0)", math: "+ 3 mod 26", to: "D (3)" }
+            ],
+            // Stage 2: Swap (Playfair 5x5 Pairs)
+            [
+                { from: "Pair 1: VH", math: "Matrix Swap", to: "WM" },
+                { from: "Pair 2: UH", math: "Matrix Swap", to: "VI" },
+                { from: "Pair 3: QR", math: "Matrix Swap", to: "VS" },
+                { from: "Pair 4: YD", math: "Matrix Swap", to: "ZB" }
+            ],
+            // Stage 3: Flip (XOR 'K' / 10)
+            [
+                { from: "W (22)", math: "⊕ K (10)", to: "G (6)" },
+                { from: "M (12)", math: "⊕ K (10)", to: "O (14)" },
+                { from: "V (21)", math: "⊕ K (10)", to: "W (22)" },
+                { from: "I (8)", math: "⊕ K (10)", to: "O (14)" },
+                { from: "V (21)", math: "⊕ K (10)", to: "F (5)" },
+                { from: "S (18)", math: "⊕ K (10)", to: "L (11)" },
+                { from: "Z (25)", math: "⊕ K (10)", to: "P (15)" },
+                { from: "B (1)", math: "⊕ K (10)", to: "R (17)" }
+            ]
         ];
 
         const stageTexts = [
@@ -115,6 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         const stageTitleEl = document.getElementById("stage-title");
+        const stageFormulaEl = document.getElementById("flow-formula");
+        const stageStepTagEl = document.getElementById("flow-step-tag");
+        const stageMathGridEl = document.getElementById("flow-math-grid");
         const stageDescEl = document.getElementById("stage-desc");
 
         function setActivePill(activeIdx) {
@@ -127,6 +186,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             });
+        }
+
+        let lastStage = -1;
+
+        function renderStageDetails(stageIdx) {
+            if (stageIdx === lastStage) return;
+            lastStage = stageIdx;
+
+            if (stageTitleEl) stageTitleEl.innerText = stageTitles[stageIdx];
+            if (stageFormulaEl) stageFormulaEl.innerText = stageFormulas[stageIdx];
+            if (stageStepTagEl) stageStepTagEl.innerText = stageStepTags[stageIdx];
+            if (stageDescEl) stageDescEl.innerText = stageDescs[stageIdx];
+
+            // Render Math Breakdown Grid Cards
+            if (stageMathGridEl) {
+                stageMathGridEl.innerHTML = "";
+                const items = stageMathData[stageIdx];
+                items.forEach((item) => {
+                    const card = document.createElement("div");
+                    card.className = "flow-math-card";
+                    card.innerHTML = `
+                        <div class="math-from">${item.from}</div>
+                        <div class="math-op">${item.math}</div>
+                        <div class="math-to">${item.to}</div>
+                    `;
+                    stageMathGridEl.appendChild(card);
+                });
+
+                gsap.fromTo(".flow-math-card", 
+                    { opacity: 0, y: 8 }, 
+                    { opacity: 1, y: 0, duration: 0.3, stagger: 0.04 }
+                );
+            }
         }
 
         const journeyEl = document.getElementById("journey");
@@ -152,8 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
 
                         setActivePill(currentStage);
-                        if (stageTitleEl) stageTitleEl.innerText = stageTitles[currentStage];
-                        if (stageDescEl) stageDescEl.innerText = stageDescs[currentStage];
+                        renderStageDetails(currentStage);
 
                         if (lettersBoxEl) {
                             const cells = lettersBoxEl.querySelectorAll(".letter-cell");
@@ -169,6 +260,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+
+        // Render Initial Stage 0 Details
+        renderStageDetails(0);
     }
 
     // 3. LIVE INTERACTIVE SANDBOX MATRIX (SECTION 5)

@@ -1,5 +1,5 @@
 /* 
- * CIPHER, PAPER, SCISSORS - Fast Native Scroll Stylesheet
+ * CIPHER, PAPER, SCISSORS - Detailed Cryptographic Step Flow Stylesheet
  * Team: GreekGods (Aasutosh, Harshit, Kapil)
  */
 
@@ -287,11 +287,11 @@ body {
 }
 
 /* ============================================================
-   SECTION 4: THE PLAINTEXT JOURNEY (FAST 120VH PINNED TRACK)
+   SECTION 4: THE PLAINTEXT JOURNEY (DETAILED CHARACTER MATH FLOW)
    ============================================================ */
 .journey-section {
     position: relative;
-    height: 120vh; /* Reduced from 220vh for fast, responsive scroll */
+    height: 140vh;
     background: #FDF6E3;
     border-top: 1px solid #111111;
     border-bottom: 1px solid #111111;
@@ -312,7 +312,7 @@ body {
 .stage-indicator {
     display: flex;
     gap: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -339,12 +339,12 @@ body {
 .word-display-box {
     background: #FFFFFF;
     border: 1px solid #111111;
-    padding: 48px 64px;
+    padding: 36px 48px;
     border-radius: 24px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 840px;
+    max-width: 900px;
 }
 
 .current-stage-title {
@@ -354,20 +354,20 @@ body {
     color: #666666;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .letters-container {
     display: flex;
     justify-content: center;
-    gap: 14px;
-    margin: 24px 0;
+    gap: 12px;
+    margin: 16px 0 24px;
     flex-wrap: wrap;
 }
 
 .letter-cell {
-    width: 64px;
-    height: 74px;
+    width: 60px;
+    height: 68px;
     background: #FDF6E3;
     border: 1px solid #111111;
     border-radius: 12px;
@@ -375,20 +375,104 @@ body {
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono);
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #0F0F0F;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     transition: all 0.3s ease;
 }
 
+/* DETAILED CHARACTER MATH TRANSFORMATION FLOW CARD */
+.stage-flow-card {
+    background: #FDF6E3;
+    border: 1px solid #111111;
+    border-radius: 16px;
+    padding: 22px 26px;
+    text-align: left;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.flow-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 1px dashed rgba(17, 17, 17, 0.2);
+    padding-bottom: 10px;
+}
+
+.flow-formula-badge {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #B5651D;
+    background: rgba(215, 166, 105, 0.18);
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(181, 101, 29, 0.3);
+}
+
+.flow-step-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: #0F0F0F;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+}
+
+.flow-math-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.flow-math-card {
+    background: #FFFFFF;
+    border: 1px solid #111111;
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    font-family: var(--font-mono);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.flow-math-card:hover {
+    transform: translateY(-2px);
+    border-color: #B5651D;
+}
+
+.math-from {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #0F0F0F;
+}
+
+.math-op {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #B5651D;
+    margin: 4px 0;
+}
+
+.math-to {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2A7C6F;
+}
+
 .stage-description {
     font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: #2A7C6F;
-    min-height: 24px;
-    margin-top: 18px;
-    font-weight: 600;
+    font-size: 0.88rem;
+    color: #333333;
+    line-height: 1.5;
+    font-weight: 500;
 }
 
 /* ============================================================
@@ -608,7 +692,11 @@ footer {
     }
 
     .word-display-box {
-        padding: 30px 20px;
+        padding: 24px 18px;
+    }
+
+    .flow-math-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
