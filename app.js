@@ -18,18 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 heroTitle,
                 {
                     scaleY: 1,
-                    transformOrigin: "bottom center",
+                    y: 0,
+                    transformOrigin: "bottom left",
                     filter: "drop-shadow(0 4px 28px rgba(0,0,0,0.45))",
                 },
                 {
-                    scaleY: 2.2,
-                    filter: "drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8))",
-                    ease: "none",
+                    scaleY: 2.6,
+                    y: -30,
+                    filter: "drop-shadow(0 24px 48px rgba(0, 0, 0, 0.85))",
+                    ease: "power1.out",
                     scrollTrigger: {
                         trigger: heroSection,
                         start: "top top",
-                        end: "bottom top",
-                        scrub: true,
+                        end: "bottom 20%",
+                        scrub: 0.3,
                         invalidateOnRefresh: true,
                     },
                 }
@@ -38,15 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (spotlightBox) {
                 gsap.fromTo(
                     spotlightBox,
-                    { scale: 1 },
+                    { scale: 1, y: 0 },
                     {
-                        scale: 1.06,
+                        scale: 1.05,
+                        y: 40,
                         ease: "none",
                         scrollTrigger: {
                             trigger: heroSection,
                             start: "top top",
                             end: "bottom top",
-                            scrub: true,
+                            scrub: 0.3,
                         },
                     }
                 );

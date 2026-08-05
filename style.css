@@ -26,7 +26,7 @@
 }
 
 html {
-    background-color: #FFFFFF;
+    background-color: #FAF9EF;
     color: #0F0F0F;
     font-family: var(--font-heading);
     overflow-x: hidden;
@@ -34,10 +34,26 @@ html {
 }
 
 body {
-    background: #FFFFFF;
+    background: transparent;
     color: #0F0F0F;
     min-height: 100vh;
     line-height: 1.6;
+}
+
+/* Pipo Bloom Field Mesh Gradient Full-Bleed Background */
+.pipo-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    background-color: #FAF8EE;
 }
 
 .cyber-grid {
@@ -64,7 +80,9 @@ body {
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
-    background: #FFFFFF !important;
+    background: transparent !important;
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
 
 .hero-page-frame {
@@ -72,11 +90,15 @@ body {
     width: 100%;
     height: calc(100vh - 40px);
     min-height: calc(100vh - 40px);
-    border: 1px solid #111111;
+    border: 1px solid rgba(17, 17, 17, 0.15);
     border-radius: 28px !important; /* Beautiful Rounded Corners */
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     overflow: hidden !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
 /* FLOATING TOP-RIGHT CONTROLS */
@@ -86,6 +108,7 @@ body {
     right: 20px;
     z-index: 60;
     pointer-events: auto;
+    will-change: transform;
 }
 
 .debug-toggle-btn,
@@ -133,6 +156,7 @@ body {
     border-radius: 28px !important;
     overflow: hidden !important;
     pointer-events: auto;
+    will-change: transform;
 }
 
 .spotlight-img {
@@ -171,8 +195,9 @@ body {
     pointer-events: none;
     padding: 0 28px 24px;
     background: transparent;
-    transform-origin: bottom center;
+    transform-origin: bottom left;
     will-change: transform;
+    overflow: visible !important;
 }
 
 .hero-title {
@@ -189,7 +214,7 @@ body {
     padding: 0;
     background: none;
     text-align: left;
-    transform-origin: bottom center;
+    transform-origin: bottom left;
     will-change: transform, filter;
     text-shadow: 0 4px 28px rgba(0, 0, 0, 0.45);
 }
