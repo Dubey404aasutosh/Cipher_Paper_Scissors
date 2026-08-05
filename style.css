@@ -1807,96 +1807,49 @@ footer {
 }
 
 /* ============================================================
-   FLOATING BACKGROUND MUSIC TOGGLE BUTTON
+   FLOATING BACKGROUND MUSIC WAVE TOGGLE (NO BOX)
    ============================================================ */
-.music-toggle-btn {
+.music-wave-toggle {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 28px;
+    right: 28px;
     z-index: 9990;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #0F0F0F;
-    color: #FFFFFF;
-    border: 1.5px solid rgba(215, 166, 105, 0.4);
-    border-radius: 40px;
-    padding: 10px 18px 10px 14px;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
     cursor: pointer;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 6px;
+    background: none;
+    border: none;
     outline: none;
-    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.music-toggle-btn:hover {
-    background: #1A1A1A;
-    border-color: #D7A669;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
-    transform: translateY(-2px);
+.music-wave-toggle:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(215, 166, 105, 0.6));
 }
 
-.music-toggle-btn.playing {
-    border-color: #D7A669;
-}
-
-.music-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-}
-
-.music-icon svg {
-    width: 16px;
-    height: 16px;
-}
-
-.music-label {
-    color: #D7A669;
-    white-space: nowrap;
-}
-
-/* Animated Waving Line */
-.music-wave {
-    display: flex;
-    align-items: center;
-    margin-left: 4px;
-    overflow: hidden;
-    height: 16px;
-    width: 48px;
-}
-
-.music-wave svg {
+.music-wave-toggle svg {
     display: block;
 }
 
 .wave-path {
-    stroke-dasharray: 0;
     transition: d 0.6s ease;
 }
 
 /* Flat line when paused */
-.music-toggle-btn:not(.playing) .wave-path {
-    d: path("M0,10 L15,10 L30,10 L45,10 L60,10");
+.music-wave-toggle:not(.playing) .wave-path {
+    d: path("M0,12 L20,12 L40,12 L60,12 L80,12");
     animation: none !important;
 }
 
 /* Animated wave when playing */
-.music-toggle-btn.playing .wave-path {
+.music-wave-toggle.playing .wave-path {
     animation: waveMove 1.5s ease-in-out infinite;
 }
 
 @keyframes waveMove {
-    0%   { d: path("M0,10 Q7.5,2 15,10 T30,10 T45,10 T60,10"); }
-    25%  { d: path("M0,10 Q7.5,16 15,10 T30,10 T45,10 T60,10"); }
-    50%  { d: path("M0,10 Q7.5,10 15,4 T30,16 T45,4 T60,10"); }
-    75%  { d: path("M0,10 Q7.5,4 15,14 T30,6 T45,14 T60,10"); }
-    100% { d: path("M0,10 Q7.5,2 15,10 T30,10 T45,10 T60,10"); }
+    0%   { d: path("M0,12 Q10,2 20,12 T40,12 T60,12 T80,12"); }
+    25%  { d: path("M0,12 Q10,20 20,12 T40,12 T60,12 T80,12"); }
+    50%  { d: path("M0,12 Q10,12 20,4 T40,20 T60,4 T80,12"); }
+    75%  { d: path("M0,12 Q10,4 20,18 T40,6 T60,18 T80,12"); }
+    100% { d: path("M0,12 Q10,2 20,12 T40,12 T60,12 T80,12"); }
 }
