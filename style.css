@@ -1046,6 +1046,17 @@ body {
     backdrop-filter: blur(8px) !important;
 }
 
+.sandbox-card.encrypt-card .result-row.final,
+.sandbox-card.decrypt-card .result-row.final {
+    background: #0F0F0F !important;
+    border-color: #0F0F0F !important;
+}
+
+.sandbox-card.encrypt-card .result-row.final .row-label,
+.sandbox-card.decrypt-card .result-row.final .row-label {
+    color: #EAEAEA !important;
+}
+
 .sandbox-card > * {
     position: relative;
     z-index: 1;
